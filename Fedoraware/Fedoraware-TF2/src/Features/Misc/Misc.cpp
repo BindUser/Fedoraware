@@ -760,26 +760,24 @@ void CMisc::NoiseMakerSpam(CBaseEntity* pLocal)
 	}
 }
 
-const std::string SPAM_FED[] = {
+const std::string SPAM_FEDORAWARE[] = {
 	"Fedoraware - github.com/Fedoraware",
 	"Fedoraware - Best free and open-source cheat!",
-	"Fedoraware - One tip ahead of the game!",
-	"Fedoraware - Now available @ https://github.com/Fedoraware!",
+	"Fedoraware - Now available at https://github.com/Fedoraware!",
 	"Fedoraware - Based on SEOwned public source!"
 };
 
-const std::string SPAM_LBOX[] = {
+const std::string SPAM_LMAOBOX[] = {
 	"GET GOOD, GET LMAOBOX!",
 	"LMAOBOX - WAY TO THE TOP",
 	"WWW.LMAOBOX.NET - BEST FREE TF2 HACK!"
 };
 
-const std::string SPAM_CH[] = {
-	"Cathook - more fun than a ball of yarn!",
+const std::string SPAM_CATHOOK[] = {
 	"GNU/Linux is the best OS!",
 	"Visit https://cathook.club for more information!",
-	"Cathook - Free and Open-Source tf2 cheat!",
-	"Cathook - ca(n)t stop me meow!"
+	"Cathook - Free and Open-Source cheat for TF2!",
+	"Cathook - Free and Open-Source software for bot hosting!"
 };
 
 /* Chat & Voicechat Spam */
@@ -797,11 +795,11 @@ void CMisc::ChatSpam()
 
 			switch (Vars::Misc::ChatSpam.Value)
 			{
-				case 2: spamMsg = SPAM_LBOX[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_LBOX) - 1)];
+				case 2: spamMsg = SPAM_LMAOBOX[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_LMAOBOX) - 1)];
 					break;
-				case 3: spamMsg = SPAM_CH[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_CH) - 1)];
+				case 3: spamMsg = SPAM_CATHOOK[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_CATHOOK) - 1)];
 					break;
-				default: spamMsg = SPAM_FED[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_FED) - 1)];
+				default: spamMsg = SPAM_FEDORAWARE[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_FEDORAWARE) - 1)];
 					break;
 			}
 
