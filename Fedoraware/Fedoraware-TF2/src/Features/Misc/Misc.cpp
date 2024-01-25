@@ -780,6 +780,11 @@ const std::string SPAM_CATHOOK[] = {
 	"Cathook - Free and Open-Source software for bot hosting!"
 };
 
+const std::string SPAM_LOL[] = {
+	"#TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024",
+	"                    "
+};
+
 /* Chat & Voicechat Spam */
 void CMisc::ChatSpam()
 {
@@ -799,6 +804,8 @@ void CMisc::ChatSpam()
 					break;
 				case 3: spamMsg = SPAM_CATHOOK[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_CATHOOK) - 1)];
 					break;
+				case 4: spamMsg = SPAM_LOL[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_LOL) - 1)];
+				    break;
 				default: spamMsg = SPAM_FEDORAWARE[Utils::RandIntSimple(0, ARRAYSIZE(SPAM_FEDORAWARE) - 1)];
 					break;
 			}
