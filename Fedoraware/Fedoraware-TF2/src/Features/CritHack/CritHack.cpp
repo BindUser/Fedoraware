@@ -1,19 +1,37 @@
 #include "CritHack.h"
+#include "../TickHandler/TickHandler.h"
 
 #include "../Aimbot/AimbotGlobal/AimbotGlobal.h"
 #define MASK_SIGNED 0x7FFFFFFF
 
+#define TF_DAMAGE_CRIT_MULTIPLIER		3.0f
+#define TF_DAMAGE_CRIT_CHANCE			0.02f
+#define TF_DAMAGE_CRIT_CHANCE_RAPID		0.02f
+#define TF_DAMAGE_CRIT_DURATION_RAPID	2.0f
+#define TF_DAMAGE_CRIT_CHANCE_MELEE		0.15f
+
 // i hate crithack
 
 /* Returns whether random crits are enabled on the server */
+bool CCritHack::IsEnabled()
+{
+	if (!Vars::CritHack::Active.Value)
+		return false;
+	if (!AreRandomCritsEnabled())
+		return false;
+	if (!I::EngineClient->IsInGame())
+		return false;
+
+	return true;
+}
+
 bool CCritHack::AreRandomCritsEnabled()
 {
 	if (static auto tf_weapon_criticals = g_ConVars.FindVar("tf_weapon_criticals"); tf_weapon_criticals)
-	{
 		return tf_weapon_criticals->GetBool();
-	}
 	return true;
 }
+
 
 /* Returns whether the crithack should run */
 bool CCritHack::IsEnabled()
@@ -96,48 +114,37 @@ bool CCritHack::IsAttacking(const CUserCmd* pCmd, CBaseCombatWeapon* pWeapon)
 
 bool CCritHack::NoRandomCrits(CBaseCombatWeapon* pWeapon)
 {
-	float CritChance = Utils::ATTRIB_HOOK_FLOAT(1, "mult_crit_chance", pWeapon, 0, true);
-	if (CritChance == 0)
-	{
-		return true;
-	}
-	else 
-	return false;
-	//list of weapons that cant random crit, but dont have the attribute for it
+     if (Utils::ATTRIB_HOOK_FLOAT(1.f, "mult_crit_chance", pWeapon) <= 0.f)
+		return false;
+
 	switch (pWeapon->GetWeaponID())
 	{
-		//scout
-		case TF_WEAPON_JAR_MILK:
-		//soldier
-		case TF_WEAPON_BUFF_ITEM:
-		//pyro
-		case TF_WEAPON_JAR_GAS:
-		case TF_WEAPON_FLAME_BALL:
-		case TF_WEAPON_ROCKETPACK:
-		//demo
-		case TF_WEAPON_PARACHUTE: //also for soldier
-		//heavy
 		case TF_WEAPON_LUNCHBOX:
-		//engineer
-		case TF_WEAPON_PDA_ENGINEER_BUILD:
-		case TF_WEAPON_PDA_ENGINEER_DESTROY:
-		case TF_WEAPON_LASER_POINTER:
-		//medic
-		case TF_WEAPON_MEDIGUN:
-		//sniper
-		case TF_WEAPON_SNIPERRIFLE:
-		case TF_WEAPON_SNIPERRIFLE_CLASSIC:
-		case TF_WEAPON_SNIPERRIFLE_DECAP:
-		case TF_WEAPON_COMPOUND_BOW:
-		case TF_WEAPON_JAR:
-		//spy
-		case TF_WEAPON_KNIFE:
-		case TF_WEAPON_PDA_SPY_BUILD:
-		case TF_WEAPON_PDA_SPY:
-			return true;
-			break;
-		default: return false; break;
+	    case TF_WEAPON_JAR_MILK:
+	    case TF_WEAPON_BUFF_ITEM:
+	    case TF_WEAPON_FLAME_BALL:
+	    case TF_WEAPON_JAR_GAS:
+	    case TF_WEAPON_ROCKETPACK:
+	    case TF_WEAPON_LASER_POINTER:
+	    case TF_WEAPON_MEDIGUN:
+	    case TF_WEAPON_SNIPERRIFLE:
+	    case TF_WEAPON_SNIPERRIFLE_DECAP:
+	    case TF_WEAPON_SNIPERRIFLE_CLASSIC:
+	    case TF_WEAPON_COMPOUND_BOW:
+	    case TF_WEAPON_JAR:
+	    case TF_WEAPON_KNIFE:
+	    case TF_WEAPON_PDA_SPY:
+	    case TF_WEAPON_PDA_SPY_BUILD:
+	    case TF_WEAPON_PDA:
+	    case TF_WEAPON_PDA_ENGINEER_BUILD:
+	    case TF_WEAPON_PDA_ENGINEER_DESTROY:
+	    case TF_WEAPON_BUILDER:
+			return false;
+
 	}
+
+	    return true;
+
 }
 
 bool CCritHack::ShouldCrit()
@@ -269,22 +276,17 @@ int CCritHack::LastGoodCritTick(const CUserCmd* pCmd)
 	for (const auto& tick : CritTicks)
 	{
 		if (tick >= pCmd->command_number)
-		{
 			retVal = tick;
-		}
 		else
-		{
 			popBack = true;
-		}
 	}
 
 	if (popBack)
-	{
 		CritTicks.pop_back();
-	}
 
 	return retVal;
 }
+
 
 void CCritHack::ScanForCrits(const CUserCmd* pCmd, int loops)
 {
