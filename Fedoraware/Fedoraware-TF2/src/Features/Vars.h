@@ -72,10 +72,10 @@ namespace Vars
 {
 	NAMESPACE_BEGIN(Menu);
 
-	CVar(CheatName, std::string("Fedodoware"), IS_VISUAL);
-	CVar(CheatPrefix, std::string("[$]"), IS_VISUAL);
+	CVar(CheatName, std::string("Fedoraware"), IS_VISUAL);
+	CVar(CheatPrefix, std::string("[FeD]"), IS_VISUAL);
 	CVar(ModernDesign, false, IS_VISUAL);
-	CVar(DrawWeather, false, IS_VISUAL);
+	CVar(DrawWeather, true, IS_VISUAL);
 	CVar(ShowPlayerlist, false, IS_VISUAL);
 	CVar(ShowKeybinds, false, IS_VISUAL);
 	CVar(Vignette, false, IS_VISUAL);
@@ -184,7 +184,7 @@ namespace Vars
 
 	NAMESPACE_BEGIN(Backtrack);
 
-	CVar(Enabled, false);
+	CVar(Enabled, true);
 	CVar(UnchokePrediction, true);
 	CVar(AllowForward, true);
 	CVar(Latency, 0);
@@ -293,7 +293,7 @@ namespace Vars
 	NAMESPACE_END(Aimbot);
 
 	NAMESPACE_BEGIN(NoSpread)
-		CVar(Hitscan, true)
+		CVar(Hitscan, false)
 		CVar(Projectile, true)
 		CVar(Indicator, false, IS_VISUAL)
 	NAMESPACE_END(NoSpread);
