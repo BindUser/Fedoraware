@@ -53,6 +53,10 @@ public: //Netvars
 		//M_OFFSETGET(HealingTarget, int, 0xC48) //DT_WeaponMedigun -> m_hHealingTarget
 		M_OFFSETGET(Healing, int, 0xC51) //DT_WeaponMedigun -> m_bHealing
 		M_OFFSETGET(CritTokenBucket, float, 0xA54)
+		M_OFFSETGET(CritChecks, int, 0xA58)
+	    M_OFFSETGET(CritSeedRequests, int, 0xA5C)
+	    M_OFFSETGET(CritTime, float, 0xB50)
+	    M_OFFSETGET(LastRapidFireCritCheckTime, float, 0xB60)
 
 		NETVAR(m_iPrimaryAmmoType, int, "CBaseCombatWeapon", "m_iPrimaryAmmoType");
 	NETVAR(m_flNextPrimaryAttack, float, "CBaseCombatWeapon", "m_flNextPrimaryAttack")
@@ -101,7 +105,7 @@ public: //Everything else, lol
 	}
 
 	int GetBulletAmount();
-
+    bool IsStreamingWeapon();
 	bool IsSpreadWeapon();
 
 	__inline float ObservedCritChance()

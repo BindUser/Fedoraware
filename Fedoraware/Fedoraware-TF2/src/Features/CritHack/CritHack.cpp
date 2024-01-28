@@ -310,7 +310,7 @@ bool CCritHack::WeaponCanCrit(CBaseCombatWeapon* pWeapon)
 void CCritHack::ResetWeapon(CBaseCombatWeapon* pWeapon)
 {
 	const auto slot = pWeapon->GetSlot();
-	const auto index = pWeapon->m_iItemDefinitionIndex();
+	const auto index = pWeapon->GetItemDefIndex();
 	if (Storage[slot].DefIndex == index)
 		return;
 
