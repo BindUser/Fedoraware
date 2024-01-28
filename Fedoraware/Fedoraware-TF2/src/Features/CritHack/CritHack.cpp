@@ -1,264 +1,74 @@
 #include "CritHack.h"
+#include "../TickHandler/TickHandler.h"
 
-#include "../Aimbot/AimbotGlobal/AimbotGlobal.h"
-#define MASK_SIGNED 0x7FFFFFFF
+#define TF_DAMAGE_CRIT_MULTIPLIER		3.0f
+#define TF_DAMAGE_CRIT_CHANCE			0.02f
+#define TF_DAMAGE_CRIT_CHANCE_RAPID		0.02f
+#define TF_DAMAGE_CRIT_DURATION_RAPID	2.0f
+#define TF_DAMAGE_CRIT_CHANCE_MELEE		0.15f
 
-// i hate crithack
+bool CCritHack::IsEnabled()
+{
+	if (!Vars::CritHack::Active.Value)
+		return false;
+	if (!AreRandomCritsEnabled())
+		return false;
+	if (!I::EngineClient->IsInGame())
+		return false;
 
-/* Returns whether random crits are enabled on the server */
+	return true;
+}
+
 bool CCritHack::AreRandomCritsEnabled()
 {
 	if (static auto tf_weapon_criticals = g_ConVars.FindVar("tf_weapon_criticals"); tf_weapon_criticals)
-	{
 		return tf_weapon_criticals->GetBool();
-	}
 	return true;
 }
 
-/* Returns whether the crithack should run */
-bool CCritHack::IsEnabled()
+
+
+void CCritHack::Fill(CBaseCombatWeapon* pWeapon, const CUserCmd* pCmd, const bool bAttacking, int n)
 {
-	if (!Vars::CritHack::Active.Value) { return false; }
-	if (!AreRandomCritsEnabled()) { return false; }
-	if (!I::EngineClient->IsInGame()) { return false; }
+	static int prev_weapon = 0;
+	static int previousCrit = 0;
+	static int starting_num = pCmd->command_number;
 
-	return true;
-}
+	if (bAttacking && G::WeaponCanAttack/* || pCmd->buttons & IN_ATTACK*/)
+		return;
 
-bool CCritHack::IsAttacking(const CUserCmd* pCmd, CBaseCombatWeapon* pWeapon)
-{
-	if (G::CurItemDefIndex == Soldier_m_TheBeggarsBazooka)
+	if (prev_weapon != pWeapon->GetIndex())
 	{
-		static bool bLoading = false;
-
-		if (pWeapon->GetClip1() > 0)
-		{
-			bLoading = true;
-		}
-
-		if (!(pCmd->buttons & IN_ATTACK) && bLoading)
-		{
-			bLoading = false;
-			return true;
-		}
+		starting_num = pCmd->command_number;
+		prev_weapon = pWeapon->GetIndex();
+		ForceCmds.clear();
+		SkipCmds.clear();
 	}
 
-	else
+	//ProtectData = true;
+	//const int seed_backup = MD5_PseudoRandom(pCmd->command_number) & 0x7FFFFFFF;
+	for (int i = 0; i < n; i++)
 	{
-		if (pWeapon->GetWeaponID() == TF_WEAPON_PIPEBOMBLAUNCHER)
-		{
-			static bool bCharging = false;
+		if (ForceCmds.size() >= 15)
+			break;
 
-			if (pWeapon->GetChargeBeginTime() > 0.0f)
-			{
-				bCharging = true;
-			}
+		const int cmd_num = starting_num + i;
 
-			if (!(pCmd->buttons & IN_ATTACK) && bCharging)
-			{
-				bCharging = false;
-				return true;
-			}
-		}
-		else if (pWeapon->GetWeaponID() == TF_WEAPON_CANNON)
-		{
-			static bool Charging = false;
-
-			if (pWeapon->GetDetonateTime() > 0.0f)
-			{
-				Charging = true;
-			}
-
-			if (!(pCmd->buttons & IN_ATTACK) && Charging)
-			{
-				Charging = false;
-				return true;
-			}
-		}	
-
-		//pssst..
-		//Dragon's Fury has a gauge (seen on the weapon model) maybe it would help for pSilent hmm..
-		/*
-		if (pWeapon->GetWeaponID() == 109) {
-		}*/
-
-		else
-		{
-			if ((pCmd->buttons & IN_ATTACK) && G::WeaponCanAttack)
-			{
-				return true;
-			}
-		}
+		if (IsCritCommand(cmd_num))
+			ForceCmds.push_back(cmd_num);
 	}
-
-	return false;
-}
-
-bool CCritHack::NoRandomCrits(CBaseCombatWeapon* pWeapon)
-{
-	float CritChance = Utils::ATTRIB_HOOK_FLOAT(1, "mult_crit_chance", pWeapon, 0, true);
-	if (CritChance == 0)
+	for (int i = 0; i < n; i++)
 	{
-		return true;
+		if (SkipCmds.size() >= 15)
+			break;
+
+		const int cmd_num = starting_num + i;
+
+		if (IsCritCommand(cmd_num, false))
+			SkipCmds.push_back(cmd_num);
 	}
-	else 
-	return false;
-	//list of weapons that cant random crit, but dont have the attribute for it
-	switch (pWeapon->GetWeaponID())
-	{
-		//scout
-		case TF_WEAPON_JAR_MILK:
-		//soldier
-		case TF_WEAPON_BUFF_ITEM:
-		//pyro
-		case TF_WEAPON_JAR_GAS:
-		case TF_WEAPON_FLAME_BALL:
-		case TF_WEAPON_ROCKETPACK:
-		//demo
-		case TF_WEAPON_PARACHUTE: //also for soldier
-		//heavy
-		case TF_WEAPON_LUNCHBOX:
-		//engineer
-		case TF_WEAPON_PDA_ENGINEER_BUILD:
-		case TF_WEAPON_PDA_ENGINEER_DESTROY:
-		case TF_WEAPON_LASER_POINTER:
-		//medic
-		case TF_WEAPON_MEDIGUN:
-		//sniper
-		case TF_WEAPON_SNIPERRIFLE:
-		case TF_WEAPON_SNIPERRIFLE_CLASSIC:
-		case TF_WEAPON_SNIPERRIFLE_DECAP:
-		case TF_WEAPON_COMPOUND_BOW:
-		case TF_WEAPON_JAR:
-		//spy
-		case TF_WEAPON_KNIFE:
-		case TF_WEAPON_PDA_SPY_BUILD:
-		case TF_WEAPON_PDA_SPY:
-			return true;
-			break;
-		default: return false; break;
-	}
-}
-
-bool CCritHack::ShouldCrit()
-{
-	CBaseEntity* pLocal = g_EntityCache.GetLocal();
-	if (!pLocal) { return false; }	//	will never hit
-	static KeyHelper critKey{ &Vars::CritHack::CritKey.Value };
-	if (critKey.Down() || !Vars::CritHack::CritKey.Value) { return true; }
-	if (G::CurWeaponType == EWeaponType::MELEE && Vars::CritHack::AlwaysMelee.Value) { return true; }
-
-	//Check if auto melee crit is enabled and player is using melee
-	if (Vars::CritHack::AutoMeleeCrit.Value && G::CurWeaponType == EWeaponType::MELEE)
-	{
-		//Base melee damage
-		int MeleeDamage = pLocal->GetClassNum() == ETFClass::CLASS_SCOUT ? 35 : 65;
-
-		//Could be missing wepaons or reskins
-		switch (G::CurItemDefIndex)
-		{
-		case Scout_t_SunonaStick:
-		{
-			//The Sun on a Stick has a -25% melee damage stat
-			MeleeDamage = 26;
-			break;
-		}
-		case Scout_t_TheFanOWar:
-		{
-			//The Fan O'War has a -75% melee damage stat
-			MeleeDamage = 9;
-			break;
-		}
-		case Scout_t_TheWrapAssassin:
-		{
-			//The Wrap Assassin has a -65% melee damage stat
-			MeleeDamage = 12;
-			break;
-		}
-		case Soldier_t_TheDisciplinaryAction:
-		case Engi_t_TheJag:
-		{
-			//The Disciplinary Action and The Jag have a -25% melee damage stat
-			MeleeDamage = 49;
-			break;
-		}
-		case Soldier_t_TheEqualizer:
-		{
-			MeleeDamage = std::ceil(107.25 - (0.37295 * pLocal->GetHealth()));
-			//The Equalizer does more damage the lower the local player's health is
-			break;
-		}
-		case Pyro_t_HotHand:
-		{
-			//The Hot Hand has a -20% melee damage stat (and attacks twice)
-			MeleeDamage = 56;
-			break;
-		}
-		case Pyro_t_SharpenedVolcanoFragment:
-		case Medic_t_Amputator:
-		{
-			//The Sharpened Volcano Fragment and The Amputator have a -20% melee damage stat
-			MeleeDamage = 52;
-			break;
-		}
-		case Pyro_t_TheBackScratcher:
-		{
-			//The Back Scratcher has a +25% melee damage stat
-			MeleeDamage = 81;
-			break;
-		}
-		case Demoman_t_TheScotsmansSkullcutter:
-		{
-			//The Scotsmans Skullcutter has a +20% melee damage stat
-			MeleeDamage = 78;
-			break;
-		}
-		case Heavy_t_WarriorsSpirit:
-		{
-			//The Warriors Spirit has a +30% melee damage stat
-			MeleeDamage = 85;
-			break;
-		}
-		case Sniper_t_TheTribalmansShiv:
-		{
-			//The Tribalmans Shiv has a -50% melee damage stat
-			MeleeDamage = 37;
-			break;
-		}
-		case Sniper_t_TheShahanshah:
-		{
-			const int iHalfHealth = pLocal->GetMaxHealth() / 2;
-			MeleeDamage = pLocal->GetHealth() > iHalfHealth ? 49 : 81;
-			//The Shahanshah has a -25% melee damage stat when above half health and a +25% when below half health
-			//81 if below half health
-			//49 if above half health
-			break;
-		}
-		default: break;
-		}
-
-		CBaseEntity* pTarget = I::ClientEntityList->GetClientEntity(G::CurrentTargetIdx);
-		if (pTarget)
-		{
-			if (G::CurItemDefIndex == Heavy_t_TheHolidayPunch)
-			{
-				if ((MeleeDamage >= pTarget->GetHealth()) && pTarget->IsVulnerable()) {
-					return false;
-				}
-				else if (pTarget->OnSolid() && !pTarget->IsTaunting() && !pTarget->GetViewingCYOAPDA()) {
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
-
-			if (MeleeDamage <= pTarget->GetHealth())
-				return true;
-		}
-	}
-
-	return false;
+	starting_num += n;
+	//ProtectData = false;
 }
 
 int CCritHack::LastGoodCritTick(const CUserCmd* pCmd)
@@ -266,187 +76,536 @@ int CCritHack::LastGoodCritTick(const CUserCmd* pCmd)
 	int retVal = -1;
 	bool popBack = false;
 
-	for (const auto& tick : CritTicks)
+	for (const auto& cmd : ForceCmds)
 	{
-		if (tick >= pCmd->command_number)
-		{
-			retVal = tick;
-		}
+		if (cmd >= pCmd->command_number)
+			retVal = cmd;
 		else
-		{
 			popBack = true;
-		}
 	}
 
 	if (popBack)
-	{
-		CritTicks.pop_back();
-	}
+		ForceCmds.pop_front();
 
 	return retVal;
 }
 
-void CCritHack::ScanForCrits(const CUserCmd* pCmd, int loops)
+int CCritHack::LastGoodSkipTick(const CUserCmd* pCmd)
 {
-	static int previousWeapon = 0;
-	static int previousCrit = 0;
+	int retVal = -1;
+	bool popBack = false;
 
-	const auto& pLocal = g_EntityCache.GetLocal();
-	const auto& pWeapon = pLocal->GetActiveWeapon();
-	if (!pLocal || !pWeapon) { return; }
-
-	const int seedBackup = *I::RandomSeed;
-
-	if (F::AimbotGlobal.IsAttacking() || IsAttacking(pCmd, pWeapon)/* || pCmd->buttons & IN_ATTACK*/)
+	for (const auto& cmd : SkipCmds)
 	{
-		return;
+		if (cmd >= pCmd->command_number)
+			retVal = cmd;
+		else
+			popBack = true;
 	}
 
-	if (previousWeapon != pWeapon->GetIndex())
-	{
-		previousWeapon = pWeapon->GetIndex();
-		CritTicks.clear();
-	}
+	if (popBack)
+		SkipCmds.pop_front();
 
-	if (CritTicks.size() >= 256)
-	{
-		return;
-	}
-
-	//CritBucketBP = *reinterpret_cast<float*>(pWeapon + 0xA54);
-	ProtectData = true; //	stop shit that interferes with our crit bucket because it will BREAK it
-	for (int i = 0; i < loops; i++)
-	{
-		*I::RandomSeed = MD5_PseudoRandom(pCmd->command_number + i) & MASK_SIGNED;
-		if (pWeapon->WillCrit())
-		{
-			CritTicks.push_back(pCmd->command_number + i); //	store our wish command number for later reference
-			*I::RandomSeed = seedBackup;
-			ProtectData = false;
-		}
-	}
-	*I::RandomSeed = seedBackup;
-	ProtectData = false; //	we no longer need to be protecting important crit data
-	*reinterpret_cast<int*>(pWeapon + 0xA5C) = 0; //	dont comment this out, makes sure our crit mult stays as low as possible
-	//	crit mult can reach a maximum value of 3!! which means we expend 3 crits WORTH from our bucket
-	//	by forcing crit mult to be its minimum value of 1, we can crit more without directly fucking our bucket
-	//	yes ProtectData stops this value from changing artificially, but it still changes when you fire and this is worth it imo.
+	return retVal;
 }
+
+
+
+bool CCritHack::IsCritCommand(const i32 command_number, const bool crit)
+{
+	const auto& pWeapon = g_EntityCache.GetWeapon();
+	if (!pWeapon)
+		return false;
+
+	const auto random_seed = MD5_PseudoRandom(command_number) & 0x7FFFFFFF;
+	Utils::RandomSeed(DecryptOrEncryptSeed(pWeapon, random_seed));
+	const auto random_int = Utils::RandomInt(0, 9999);
+
+	return crit ? random_int < 100 : random_int > 6000;
+}
+
+u32 CCritHack::DecryptOrEncryptSeed(CBaseCombatWeapon* pWeapon, u32 seed)
+{
+	if (!pWeapon)
+		return 0;
+
+	unsigned int iMask = pWeapon->GetIndex() << 8 | I::EngineClient->GetLocalPlayer();
+
+	if (pWeapon->GetSlot() == SLOT_MELEE)
+		iMask <<= 8;
+
+	return iMask ^ seed;
+}
+
+
+
+void CCritHack::GetTotalCrits(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon) // this is all pretty garbo
+{
+	if (!pLocal || !pWeapon || pLocal->deadflag())
+		return;
+
+	if (!Vars::CritHack::Active.Value)
+		return;
+
+	const auto slot = pWeapon->GetSlot();
+	auto tfWeaponInfo = pWeapon->GetTFWeaponInfo();
+	if (!tfWeaponInfo)
+		return;
+	auto& weaponData = tfWeaponInfo->GetWeaponData(0);
+
+	float flDamage = weaponData.m_nDamage;
+	flDamage = Utils::ATTRIB_HOOK_FLOAT(flDamage, "mult_dmg", pWeapon);
+	int nProjectilesPerShot = weaponData.m_nBulletsPerShot;
+	if (nProjectilesPerShot >= 1)
+		nProjectilesPerShot = Utils::ATTRIB_HOOK_FLOAT(nProjectilesPerShot, "mult_bullets_per_shot", pWeapon);
+	else
+		nProjectilesPerShot = 1;
+	flDamage *= nProjectilesPerShot;
+	Storage[slot].Damage = flDamage;
+
+	if (pWeapon->IsStreamingWeapon())
+	{
+		Storage[slot].Damage *= TF_DAMAGE_CRIT_DURATION_RAPID / weaponData.m_flTimeFireDelay;
+
+		if (Storage[slot].Damage * TF_DAMAGE_CRIT_MULTIPLIER > BucketCap)
+			Storage[slot].Damage = BucketCap / TF_DAMAGE_CRIT_MULTIPLIER;
+	}
+	if (slot == SLOT_MELEE)
+		Storage[slot].Damage *= 35.f / 32.5f;
+
+	float flMult = 1.f;
+	if (slot == SLOT_MELEE)
+		flMult = 0.5f;
+	else if (Storage[slot].ShotsCrits.second > 0 && Storage[slot].ShotsCrits.first > 0)
+		flMult = Math::RemapValClamped((float)Storage[slot].ShotsCrits.second / (float)Storage[slot].ShotsCrits.first, 0.1f, 1.f, 1.f, 3.f);
+
+	if (slot == SLOT_MELEE)
+	{
+		const float cost = Storage[slot].Damage * flMult;
+		Storage[slot].BaseCost = cost;
+		Storage[slot].Cost = cost;
+	}
+	else
+	{
+		Storage[slot].BaseCost = Storage[slot].Damage * TF_DAMAGE_CRIT_MULTIPLIER;
+		Storage[slot].Cost = Storage[slot].BaseCost * flMult;
+	}
+
+	auto Bucket = Storage[slot].Bucket;
+
+	if (BucketCap)
+		Storage[slot].PotentialCrits = static_cast<unsigned int>((BucketCap/* - std::max(BucketBottom, -Storage[slot].Cost)*/) / Storage[slot].BaseCost);
+
+	if (slot == SLOT_MELEE)
+		Storage[slot].AvailableCrits = std::floor((Bucket/* - std::max(BucketBottom, -Storage[slot].Cost)*/) / Storage[slot].Cost);
+	else
+	{
+		int shots = Storage[slot].ShotsCrits.first, crits = Storage[slot].ShotsCrits.second;
+		if (shots > 0 && crits > 0)
+		{
+			int iCrits = 0;
+
+			float bucket = Bucket/* - std::max(BucketBottom, -Storage[slot].Cost)*/, flCost = Storage[slot].BaseCost;
+			const int iAttempts = std::min(Storage[slot].PotentialCrits + 1, 100); // just in case
+			for (int i = 0; i < iAttempts; i++)
+			{
+				flMult = Math::RemapValClamped((float)crits / (float)shots, 0.1f, 1.f, 1.f, 3.f);
+				bucket -= flCost * flMult;
+				if (bucket < 0.f)
+					break;
+
+				shots++; crits++;
+				iCrits++;
+			}
+
+			Storage[slot].AvailableCrits = iCrits;
+		}
+		else
+			Storage[slot].AvailableCrits = std::floor((Bucket/* - std::max(BucketBottom, -Storage[slot].Cost)*/) / Storage[slot].Cost);
+	}
+}
+
+void CCritHack::CanFireCriticalShotHandler(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon)
+{
+	//pWeapon->SetObservedCritChance(0.f);
+	CritBanned = false;
+	CritChance = 0.02f * pLocal->GetCritMult() + 0.1f;
+	if (pWeapon->IsStreamingWeapon())
+	{
+		float flNonCritDuration = (TF_DAMAGE_CRIT_DURATION_RAPID / CritChance) - TF_DAMAGE_CRIT_DURATION_RAPID;
+		CritChance = 1.f / flNonCritDuration;
+	}
+
+	if (CritDamage == 0.f || pWeapon->GetSlot() == SLOT_MELEE)
+		return;
+
+	const auto divCritDamage = CritDamage / TF_DAMAGE_CRIT_MULTIPLIER;
+	const auto ratio = divCritDamage / (AllDamage - 2 * divCritDamage);
+	//pWeapon->SetObservedCritChance(ratio);
+
+	CritBanned = ratio >= CritChance;
+}
+
+void CCritHack::GetDamageTilUnban(CBaseEntity* pLocal)
+{
+	DamageTilUnban = 0;
+
+	if (!CritBanned)
+		return;
+
+	const auto divCritDamage = CritDamage / TF_DAMAGE_CRIT_MULTIPLIER;
+
+	DamageTilUnban = divCritDamage / CritChance + 2 * divCritDamage - AllDamage;
+}
+
+void CCritHack::FixHeavyRevBug(CUserCmd* pCmd)
+{
+	const auto& pLocal = g_EntityCache.GetLocal();
+	const auto& pWeapon = g_EntityCache.GetWeapon();
+	if (!pLocal || !pWeapon || pLocal->deadflag())
+		return;
+
+	if (!pLocal->IsClass(CLASS_HEAVY) || pWeapon->GetWeaponID() != TF_WEAPON_MINIGUN)
+		return;
+
+	if (pCmd->buttons & IN_ATTACK)
+		pCmd->buttons &= ~IN_ATTACK2;
+}
+
+bool CCritHack::WeaponCanCrit(CBaseCombatWeapon* pWeapon)
+{
+	if (Utils::ATTRIB_HOOK_FLOAT(1.f, "mult_crit_chance", pWeapon) <= 0.f)
+		return false;
+
+	switch (pWeapon->GetWeaponID())
+	{
+	case TF_WEAPON_LUNCHBOX:
+	case TF_WEAPON_JAR_MILK:
+	case TF_WEAPON_BUFF_ITEM:
+	case TF_WEAPON_FLAME_BALL:
+	case TF_WEAPON_JAR_GAS:
+	case TF_WEAPON_ROCKETPACK:
+	case TF_WEAPON_LASER_POINTER:
+	case TF_WEAPON_MEDIGUN:
+	case TF_WEAPON_SNIPERRIFLE:
+	case TF_WEAPON_SNIPERRIFLE_DECAP:
+	case TF_WEAPON_SNIPERRIFLE_CLASSIC:
+	case TF_WEAPON_COMPOUND_BOW:
+	case TF_WEAPON_JAR:
+	case TF_WEAPON_KNIFE:
+	case TF_WEAPON_PDA_SPY:
+	case TF_WEAPON_PDA_SPY_BUILD:
+	case TF_WEAPON_PDA:
+	case TF_WEAPON_PDA_ENGINEER_BUILD:
+	case TF_WEAPON_PDA_ENGINEER_DESTROY:
+	case TF_WEAPON_BUILDER:
+		return false;
+	}
+
+	return true;
+}
+
+
+
+void CCritHack::ResetWeapon(CBaseCombatWeapon* pWeapon)
+{
+	const auto slot = pWeapon->GetSlot();
+	const auto index = pWeapon->m_iItemDefinitionIndex();
+	if (Storage[slot].DefIndex == index)
+		return;
+
+	Utils::ConLog("Crithack", "Resetting weapon", { 0, 255, 255, 255 }, Vars::Debug::Logging.Value);
+
+	Storage[slot] = {};
+	Storage[slot].Bucket = BucketDefault;
+	Storage[slot].DefIndex = index;
+}
+
+void CCritHack::Reset()
+{
+	Utils::ConLog("Crithack", "Resetting", { 0, 255, 255, 255 }, Vars::Debug::Logging.Value);
+
+	ForceCmds = {};
+	SkipCmds = {};
+
+	Storage = {};
+
+	CritDamage = 0;
+	AllDamage = 0;
+
+	CritBanned = false;
+	DamageTilUnban = 0;
+	CritChance = 0.f;
+	ProtectData = false;
+}
+
+
 
 void CCritHack::Run(CUserCmd* pCmd)
 {
-	if (!IsEnabled()) { return; }
+	FixHeavyRevBug(pCmd);
 
+	auto bucketDefault = g_ConVars.FindVar("tf_weapon_criticals_bucket_default");
+	auto bucketBottom = g_ConVars.FindVar("tf_weapon_criticals_bucket_bottom");
+	auto bucketCap = g_ConVars.FindVar("tf_weapon_criticals_bucket_cap");
+
+	if (!bucketDefault || !bucketBottom || !bucketCap)
+		return;
+
+	BucketDefault = bucketDefault->GetFloat();
+	BucketBottom = bucketBottom->GetFloat();
+	BucketCap = bucketCap->GetFloat();
+
+	const auto& pLocal = g_EntityCache.GetLocal();
 	const auto& pWeapon = g_EntityCache.GetWeapon();
-	if (!pWeapon || !pWeapon->CanFireCriticalShot(false)) { return; }
+	if (!pLocal || !pWeapon)
+		return;
 
-	ScanForCrits(pCmd, 100); //	fill our vector slowly.
-
-	auto OldSeed = *I::RandomSeed;
-
-	const int closestGoodTick = LastGoodCritTick(pCmd); //	retrieve our wish
-	if (IsAttacking(pCmd, pWeapon)) //	is it valid & should we even use it
+	bool bAttacking = Utils::IsAttacking(pCmd, pWeapon);
+	if (G::CurWeaponType == EWeaponType::MELEE)
 	{
-		if (ShouldCrit())
+		bAttacking = G::WeaponCanAttack && pCmd->buttons & IN_ATTACK;
+		if (!bAttacking && pWeapon->GetWeaponID() == TF_WEAPON_FISTS)
+			bAttacking = G::WeaponCanAttack && pCmd->buttons & IN_ATTACK2;
+	}
+	if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN && !(G::LastUserCmd->buttons & IN_ATTACK)) // silly
+		bAttacking = false;
+
+	if (Storage[pWeapon->GetSlot()].StreamWait <= I::GlobalVars->tickcount - 1)
+		Storage[pWeapon->GetSlot()].StreamWait = -1;
+	if (Storage[pWeapon->GetSlot()].StreamEnd <= I::GlobalVars->tickcount - 1)
+		Storage[pWeapon->GetSlot()].StreamEnd = -1;
+
+	const bool bRapidFire = pWeapon->IsStreamingWeapon();
+	const bool bStreamWait = Storage[pWeapon->GetSlot()].StreamWait > 0;
+	const bool bStreamEnd = Storage[pWeapon->GetSlot()].StreamEnd > 0;
+
+	ResetWeapon(pWeapon);
+	if (pLocal->deadflag() || !WeaponCanCrit(pWeapon) || pLocal->InCond(TF_COND_CRITBOOSTED)/* || !pWeapon->CanFireCriticalShot(false)*/)
+		return;
+
+	CanFireCriticalShotHandler(pLocal, pWeapon);
+	GetDamageTilUnban(pLocal);
+	Fill(pWeapon, pCmd, bAttacking, 15);
+
+	const int closestCrit = LastGoodCritTick(pCmd);
+	const int closestSkip = LastGoodSkipTick(pCmd);
+
+	bool pressed = F::KeyHandler.Down(Vars::CritHack::CritKey.Value);
+	if (!pressed && Vars::CritHack::AlwaysMelee.Value && pWeapon->GetSlot() == SLOT_MELEE)
+		pressed = true;
+	if (bAttacking && !pWeapon->IsInReload()) // is it valid & should we even use it
+	{
+		//ProtectData = true;
+
+		if (IsEnabled())
 		{
-			if (closestGoodTick < 0) { return; }
-			pCmd->command_number = closestGoodTick; //	set our cmdnumber to our wish
-			pCmd->random_seed = MD5_PseudoRandom(closestGoodTick) & MASK_SIGNED; //	trash poopy whatever who cares
+			if (pressed && Storage[pWeapon->GetSlot()].AvailableCrits > 0 && (!CritBanned || pWeapon->GetSlot() == SLOT_MELEE) && closestCrit >= 0 && !bStreamWait && !bStreamEnd)
+				pCmd->command_number = closestCrit;
+			else if (Vars::CritHack::AvoidRandom.Value && closestSkip >= 0)
+				pCmd->command_number = closestSkip;
 		}
-		else if (Vars::CritHack::AvoidRandom.Value) //	we don't want to crit
+
+		if (bRapidFire && !bStreamWait)
+			Storage[pWeapon->GetSlot()].StreamWait = I::GlobalVars->tickcount + 1 / I::GlobalVars->interval_per_tick;
+
+		if (bRapidFire && (bStreamEnd || bStreamWait))
+			goto out;
+
+		Storage[pWeapon->GetSlot()].ShotsCrits.first += 1;
+
+		if (IsCritCommand(pCmd->command_number))
 		{
-			for (int tries = 1; tries < 10; tries++)
+			if (bRapidFire)
+				Storage[pWeapon->GetSlot()].StreamEnd = I::GlobalVars->tickcount + 2 / I::GlobalVars->interval_per_tick;
+			Storage[pWeapon->GetSlot()].ShotsCrits.second += 1;
+			Storage[pWeapon->GetSlot()].Bucket = std::clamp(Storage[pWeapon->GetSlot()].Bucket - Storage[pWeapon->GetSlot()].Cost, std::max(BucketBottom, 0.f), BucketCap);
+		}
+		else
+			Storage[pWeapon->GetSlot()].Bucket = std::clamp(Storage[pWeapon->GetSlot()].Bucket + Storage[pWeapon->GetSlot()].Damage, std::max(BucketBottom, 0.f), BucketCap);
+	}
+	/*
+	else if (IsEnabled() && closest_skip >= 0)
+		pCmd->command_number = closest_skip;
+	*/
+
+out:
+	//ProtectData = false;
+
+	GetTotalCrits(pLocal, pWeapon);
+
+	if (pCmd->command_number == closestCrit)
+		ForceCmds.pop_front();
+	else if (pCmd->command_number == closestSkip)
+		SkipCmds.pop_front();
+}
+
+bool CCritHack::CalcIsAttackCriticalHandler(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon)
+{
+	if (I::Prediction->m_bFirstTimePredicted)
+		return false;
+
+	if (!pWeapon || pLocal)
+		return false;
+
+	{
+		static int s_nPreviousTickcount = 0;
+		if (s_nPreviousTickcount == I::GlobalVars->tickcount)
+			return false;
+		s_nPreviousTickcount = I::GlobalVars->tickcount;
+	}
+
+	if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN ||
+		pWeapon->GetWeaponID() == TF_WEAPON_FLAMETHROWER)
+	{
+		auto nPreviousAmmoCount = pLocal->GetAmmoCount(pWeapon->m_iPrimaryAmmoType());
+		static auto nNewAmmoCount = nPreviousAmmoCount;
+
+		const auto bHasFiredBullet = nNewAmmoCount != nPreviousAmmoCount;
+
+		if (!bHasFiredBullet)
+			return false;
+	}
+
+	return true;
+}
+
+void CCritHack::Event(CGameEvent* pEvent, FNV1A_t uNameHash)
+{
+	if (uNameHash == FNV1A::HashConst("player_hurt"))
+	{
+		const auto& pLocal = g_EntityCache.GetLocal();
+		if (!pLocal)
+			return;
+
+		const auto attacked = I::EngineClient->GetPlayerForUserID(pEvent->GetInt("userid"));
+		const auto attacker = I::EngineClient->GetPlayerForUserID(pEvent->GetInt("attacker"));
+		auto	   crit = pEvent->GetInt("crit");
+		auto       damage = pEvent->GetInt("damageamount");
+		const auto health = pEvent->GetInt("health");
+		const auto weapon_id = pEvent->GetInt("weaponid");
+
+		if (attacker == pLocal->GetIndex() && attacked != attacker)
+		{
+			CBaseCombatWeapon* pWeapon = reinterpret_cast<CBaseCombatWeapon*>(I::ClientEntityList->GetClientEntityFromHandle(pEvent->GetInt("weaponid")));
+			if (!pWeapon)
+				pWeapon = g_EntityCache.GetWeapon();
+			if (!pWeapon)
+				return;
+
+			if (pWeapon->GetSlot() == SLOT_MELEE || pLocal->InCond(TF_COND_CRITBOOSTED))
+				return;
+
+			AllDamage += damage;
+			if (crit)
 			{
-				*I::RandomSeed = MD5_PseudoRandom(pCmd->command_number + tries) & MASK_SIGNED;
-				if (!pWeapon->WillCrit())
-				{
-					pCmd->command_number += tries;
-					break;
-				}
+				CritDamage += damage;
+
+				Utils::ConLog("Crithack", "Adding crit", { 0, 255, 255, 255 }, Vars::Debug::Logging.Value);
 			}
-			*I::RandomSeed = OldSeed;
 		}
+	}
+	else if (uNameHash == FNV1A::HashConst("teamplay_round_start"))
+	{
+		CritDamage = 0.f;
+		AllDamage = 0.f;
+	}
+	else if (uNameHash == FNV1A::HashConst("client_beginconnect") || uNameHash == FNV1A::HashConst("client_disconnect") ||
+		uNameHash == FNV1A::HashConst("game_newmap")) // i believe newmap is practically rejoining ?
+	{
+		Utils::ConLog("Crithack", "Resetting", { 0, 255, 255, 255 }, Vars::Debug::Logging.Value);
+		Reset();
+	}
+	else if (uNameHash == FNV1A::HashConst("player_changeclass"))
+	{
+		const bool bLocal = I::EngineClient->GetPlayerForUserID(pEvent->GetInt("userid")) == I::EngineClient->GetLocalPlayer();
+		if (bLocal)
+			Storage = {};
 	}
 }
 
 void CCritHack::Draw()
 {
-	if (!Vars::CritHack::Indicators.Value) { return; }
-	if (!IsEnabled() || !G::CurrentUserCmd) { return; }
+	if (!Vars::CritHack::Active.Value || !(Vars::Menu::Indicators.Value & (1 << 1)))
+		return;
+	if (!IsEnabled() || !G::CurrentUserCmd)
+		return;
 
 	const auto& pLocal = g_EntityCache.GetLocal();
-	if (!pLocal || !pLocal->IsAlive()) { return; }
+	if (!pLocal || !pLocal->IsAlive() || pLocal->IsAGhost())
+		return;
 
 	const auto& pWeapon = pLocal->GetActiveWeapon();
-	if (!pWeapon) { return; }
+	if (!pWeapon)
+		return;
 
-	const int x = Vars::CritHack::IndicatorPos.Value.c;
-	int currentY = Vars::CritHack::IndicatorPos.Value.y;
+	int x = Vars::Menu::CritsDisplay.Value.x;
+	int y = Vars::Menu::CritsDisplay.Value.y + 8;
 
-	const float bucket = *reinterpret_cast<float*>(pWeapon + 0xA54);
-	const int seedRequests = *reinterpret_cast<int*>(pWeapon + 0xA5C);
+	const auto& fFont = g_Draw.GetFont(FONT_INDICATORS);
 
-	int longestW = 40;
-	const auto& FONT= g_Draw.GetFont(FONT_INDICATORS);
+	EAlign align = ALIGN_TOP;
+	if (x <= (100 + 50 * Vars::Menu::DPI.Value))
+	{
+		x -= 42 * Vars::Menu::DPI.Value;
+		align = ALIGN_TOPLEFT;
+	}
+	else if (x >= g_ScreenSize.w - (100 + 50 * Vars::Menu::DPI.Value))
+	{
+		x += 42 * Vars::Menu::DPI.Value;
+		align = ALIGN_TOPRIGHT;
+	}
 
-	if (Vars::Debug::DebugInfo.Value)
+	if (WeaponCanCrit(pWeapon))
 	{
-		//const void* ptr = static_cast<void*>(pWeapon + 0xA54);
-		g_Draw.String(FONT, x, currentY += 15, { 255, 255, 255, 255, }, ALIGN_CENTERHORIZONTAL, std::format("{:#x}", reinterpret_cast<uintptr_t>(pWeapon + 0xA54)).c_str());
-	}
-	//Can this weapon do random crits?
-	if (NoRandomCrits(pWeapon) == true)
-	{
-		g_Draw.String(FONT, x, currentY += 15, { 255, 95, 95, 255 }, ALIGN_CENTERHORIZONTAL, L"No Random Crits");
-	}
-	// Are we currently forcing crits?
-	if (ShouldCrit() && NoRandomCrits(pWeapon) == false)
-	{
-		g_Draw.String(FONT, x, currentY += 15, { 70, 190, 50, 255 }, ALIGN_CENTERHORIZONTAL, "Forcing crits...");
-	}
-	//crit banned check
-	if (CritTicks.size() == 0 && NoRandomCrits(pWeapon) == false)
-	{
-		g_Draw.String(FONT, x, currentY += 15, { 255,0,0,255 }, ALIGN_CENTERHORIZONTAL, L"Crit Banned");
-	}
-	static auto tf_weapon_criticals_bucket_cap = g_ConVars.FindVar("tf_weapon_criticals_bucket_cap");
-	const float bucketCap = tf_weapon_criticals_bucket_cap->GetFloat();
-	const std::wstring bucketstr = L"Bucket: " + std::to_wstring(static_cast<int>(bucket)) + L"/" + std::to_wstring(static_cast<int>(bucketCap));
-	// crit bucket (this sucks)
-	if (NoRandomCrits(pWeapon) == false)	
-	{
-			g_Draw.String(FONT, x, currentY += 15, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, bucketstr.c_str()); 
-	}
-	int w, h;
-	I::VGuiSurface->GetTextSize(FONT.dwFont, bucketstr.c_str(), w, h);
-	if (w > longestW)
-	{
-		longestW = w;
-	}
-	if (Vars::Debug::DebugInfo.Value)
-	{
-		const std::wstring seedText = L"m_nCritSeedRequests: " + std::to_wstring(seedRequests);
-		const std::wstring FoundCrits = L"Found Crit Ticks: " + std::to_wstring(CritTicks.size());
-		const std::wstring commandNumber = L"cmdNumber: " + std::to_wstring(G::CurrentUserCmd->command_number);
-		g_Draw.String(FONT, x, currentY += 15, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, seedText.c_str());
-		I::VGuiSurface->GetTextSize(FONT.dwFont, seedText.c_str(), w, h);
-		if (w > longestW)
+		const auto slot = pWeapon->GetSlot();
+		const auto bRapidFire = pWeapon->IsStreamingWeapon();
+
+		if (Storage[slot].Damage > 0)
 		{
-			longestW = w;
+			if (pLocal->IsCritBoosted())
+				g_Draw.String(fFont, x, y, { 100, 255, 255, 255 }, align, "Crit Boosted");
+			else if (bRapidFire && Storage[slot].StreamEnd > 0)
+			{
+				const float time = std::max(TICKS_TO_TIME(Storage[slot].StreamEnd - pLocal->m_nTickBase()), 0.f);
+				g_Draw.String(fFont, x, y, { 100, 255, 255, 255 }, align, std::format("Streaming crits {:.1f}s", time).c_str());
+			}
+			else if (!CritBanned)
+			{
+				if (Storage[slot].AvailableCrits > 0)
+				{
+					if (bRapidFire && Storage[slot].StreamWait > 0)
+					{
+						const float time = std::max((TICKS_TO_TIME(Storage[slot].StreamWait - pLocal->m_nTickBase())), 0.f);
+						g_Draw.String(fFont, x, y, Vars::Menu::Theme::Active.Value, align, std::format("Wait {:.1f}s", time).c_str());
+					}
+					else
+						g_Draw.String(fFont, x, y, { 150, 255, 150, 255 }, align, "Crit Ready");
+				}
+				else
+				{
+					const float damage = Storage[slot].Damage;
+					const int shots = Storage[slot].Cost / damage - (Storage[slot].Bucket/* - std::max(BucketBottom, -Storage[pWeapon->GetSlot()].Cost)*/) / damage + 1;
+					g_Draw.String(fFont, x, y, { 255, 150, 150, 255 }, align, shots == 1 ? std::format("Crit in {} shot", shots).c_str() : std::format("Crit in {} shots", shots).c_str());
+				}
+			}
+			else
+				g_Draw.String(fFont, x, y, { 255, 150, 150, 255 }, align, std::format("Deal {} damage", DamageTilUnban).c_str());
+
+			g_Draw.String(fFont, x, y + fFont.nTall + 2, Vars::Menu::Theme::Active.Value, align, std::format("{} / {} potential crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
 		}
-		g_Draw.String(FONT, x, currentY += 15, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, FoundCrits.c_str());
-		I::VGuiSurface->GetTextSize(FONT.dwFont, FoundCrits.c_str(), w, h);
-		if (w > longestW)
+		else
+			g_Draw.String(fFont, x, y, Vars::Menu::Theme::Active.Value, align, "Calculating");
+
+		if (Vars::Debug::Info.Value)
 		{
-			longestW = w;
-		}
-		g_Draw.String(FONT, x, currentY += 15, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, commandNumber.c_str());
-		I::VGuiSurface->GetTextSize(FONT.dwFont, commandNumber.c_str(), w, h);
-		if (w > longestW)
-		{
-			longestW = w;
+			g_Draw.String(fFont, x, y + fFont.nTall * 3, { 255, 255, 255, 255 }, align, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
+			g_Draw.String(fFont, x, y + fFont.nTall * 4, { 255, 255, 255, 255 }, align, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
+			g_Draw.String(fFont, x, y + fFont.nTall * 5, { 255, 255, 255, 255 }, align, std::format("Damage: {}, Cost: {}", Storage[slot].Damage, Storage[slot].Cost).c_str());
+			g_Draw.String(fFont, x, y + fFont.nTall * 6, { 255, 255, 255, 255 }, align, std::format("Shots: {}, Crits: {}", Storage[slot].ShotsCrits.first, Storage[slot].ShotsCrits.second).c_str());
+			g_Draw.String(fFont, x, y + fFont.nTall * 7, { 255, 255, 255, 255 }, align, std::format("CritBanned: {}, DamageTilUnban: {}", CritBanned, DamageTilUnban).c_str());
+			g_Draw.String(fFont, x, y + fFont.nTall * 8, { 255, 255, 255, 255 }, align, std::format("CritChance: {:.2f}", CritChance).c_str());
+			g_Draw.String(fFont, x, y + fFont.nTall * 9, { 255, 255, 255, 255 }, align, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
 		}
 	}
-	IndicatorW = longestW * 2;
-	IndicatorH = currentY;
 }

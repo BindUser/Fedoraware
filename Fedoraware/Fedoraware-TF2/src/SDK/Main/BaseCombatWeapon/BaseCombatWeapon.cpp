@@ -33,6 +33,28 @@ bool CBaseCombatWeapon::IsSpreadWeapon() {
 	}
 }
 
+bool CBaseCombatWeapon::IsStreamingWeapon()
+{
+	switch (GetWeaponID())
+	{
+	case TF_WEAPON_MINIGUN:
+	case TF_WEAPON_FLAMETHROWER:
+	case TF_WEAPON_PISTOL:
+	case TF_WEAPON_PISTOL_SCOUT:
+	case TF_WEAPON_HANDGUN_SCOUT_SEC:
+	case TF_WEAPON_SMG:
+	case TF_WEAPON_SYRINGEGUN_MEDIC:
+	case TF_WEAPON_HANDGUN_SCOUT_PRIMARY:
+	{
+		return true;
+		break;
+	}
+	default: break;
+	}
+
+	return false;
+}
+
 /*
 
 TODO: 
