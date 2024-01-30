@@ -93,6 +93,20 @@ void CDraw::String(const Font_t& font, int x, int y, const Color_t& clr, const E
 		}
 	}
 
+	int w = 0, h = 0; I::VGuiSurface->GetTextSize(dwFont, wstr, w, h);
+	switch (align)
+	{
+	case ALIGN_TOPLEFT: break;
+	case ALIGN_TOP: x -= w / 2; break;
+	case ALIGN_TOPRIGHT: x -= w; break;
+	case ALIGN_LEFT: y -= h / 2; break;
+	case ALIGN_CENTER: x -= w / 2; y -= h / 2; break;
+	case ALIGN_RIGHT: x -= w; y -= h / 2; break;
+	case ALIGN_BOTTOMLEFT: y -= h; break;
+	case ALIGN_BOTTOM: x -= w / 2; y -= h; break;
+	case ALIGN_BOTTOMRIGHT: x -= w; y -= h; break;
+	}
+
 	I::VGuiSurface->DrawSetTextPos(x, y);
 	I::VGuiSurface->DrawSetTextFont(dwFont);
 	I::VGuiSurface->DrawSetTextColor(clr.r, clr.g, clr.b, clr.a);
@@ -147,6 +161,20 @@ void CDraw::String(const Font_t& font, int x, int y, const Color_t& clr, const E
 			x -= (w);
 			break;
 		}
+	}
+
+	int w = 0, h = 0; I::VGuiSurface->GetTextSize(dwFont, wstr, w, h);
+	switch (align)
+	{
+	case ALIGN_TOPLEFT: break;
+	case ALIGN_TOP: x -= w / 2; break;
+	case ALIGN_TOPRIGHT: x -= w; break;
+	case ALIGN_LEFT: y -= h / 2; break;
+	case ALIGN_CENTER: x -= w / 2; y -= h / 2; break;
+	case ALIGN_RIGHT: x -= w; y -= h / 2; break;
+	case ALIGN_BOTTOMLEFT: y -= h; break;
+	case ALIGN_BOTTOM: x -= w / 2; y -= h; break;
+	case ALIGN_BOTTOMRIGHT: x -= w; y -= h; break;
 	}
 
 	I::VGuiSurface->DrawSetTextPos(x, y);

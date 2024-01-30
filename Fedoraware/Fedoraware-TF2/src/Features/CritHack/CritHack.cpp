@@ -526,7 +526,7 @@ void CCritHack::Event(CGameEvent* pEvent, FNV1A_t uNameHash)
 
 void CCritHack::Draw()
 {
-	if (!Vars::CritHack::Active.Value || !(Vars::Menu::Indicators.Value & (1 << 1)))
+	if (!Vars::CritHack::Active.Value || !(Vars::CritHack::Indicators.Value & (1 << 1)))
 		return;
 	if (!IsEnabled() || !G::CurrentUserCmd)
 		return;
@@ -539,12 +539,12 @@ void CCritHack::Draw()
 	if (!pWeapon)
 		return;
 
-	int x = Vars::Menu::CritsDisplay.Value.x;
-	int y = Vars::Menu::CritsDisplay.Value.y + 8;
+	int x = Vars::CritHack::IndicatorPos.Value.c;
+	int y = Vars::CritHack::IndicatorPos.Value.y + 8;
 
 	const auto& fFont = g_Draw.GetFont(FONT_INDICATORS);
 
-	EAlign align = ALIGN_TOP;
+	EStringAlign align = ALIGN_TOP;
 	if (x <= (100 + 50 * Vars::Menu::DPI.Value))
 	{
 		x -= 42 * Vars::Menu::DPI.Value;
@@ -577,7 +577,7 @@ void CCritHack::Draw()
 					if (bRapidFire && Storage[slot].StreamWait > 0)
 					{
 						const float time = std::max((TICKS_TO_TIME(Storage[slot].StreamWait - pLocal->m_nTickBase())), 0.f);
-						g_Draw.String(fFont, x, y, Vars::Menu::Theme::Active.Value, align, std::format("Wait {:.1f}s", time).c_str());
+						g_Draw.String(fFont, x, y, Vars::CritHack::Active.Value, align, std::format("Wait {:.1f}s", time).c_str());
 					}
 					else
 						g_Draw.String(fFont, x, y, { 150, 255, 150, 255 }, align, "Crit Ready");
@@ -592,12 +592,12 @@ void CCritHack::Draw()
 			else
 				g_Draw.String(fFont, x, y, { 255, 150, 150, 255 }, align, std::format("Deal {} damage", DamageTilUnban).c_str());
 
-			g_Draw.String(fFont, x, y + fFont.nTall + 2, Vars::Menu::Theme::Active.Value, align, std::format("{} / {} potential crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
+			g_Draw.String(fFont, x, y + fFont.nTall + 2, Vars::CritHack::Active.Value, align, std::format("{} / {} potential crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
 		}
 		else
-			g_Draw.String(fFont, x, y, Vars::Menu::Theme::Active.Value, align, "Calculating");
+			g_Draw.String(fFont, x, y, Vars::CritHack::Active.Value, align, "Calculating");
 
-		if (Vars::Debug::Info.Value)
+		if (Vars::Debug::DebugInfo.Value)
 		{
 			g_Draw.String(fFont, x, y + fFont.nTall * 3, { 255, 255, 255, 255 }, align, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
 			g_Draw.String(fFont, x, y + fFont.nTall * 4, { 255, 255, 255, 255 }, align, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
