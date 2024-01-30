@@ -100,7 +100,6 @@ void CDraw::String(const Font_t& font, int x, int y, const Color_t& clr, const E
 	case ALIGN_TOP: x -= w / 2; break;
 	case ALIGN_TOPRIGHT: x -= w; break;
 	case ALIGN_LEFT: y -= h / 2; break;
-	case ALIGN_CENTER: x -= w / 2; y -= h / 2; break;
 	case ALIGN_RIGHT: x -= w; y -= h / 2; break;
 	case ALIGN_BOTTOMLEFT: y -= h; break;
 	case ALIGN_BOTTOM: x -= w / 2; y -= h; break;
@@ -170,7 +169,6 @@ void CDraw::String(const Font_t& font, int x, int y, const Color_t& clr, const E
 	case ALIGN_TOP: x -= w / 2; break;
 	case ALIGN_TOPRIGHT: x -= w; break;
 	case ALIGN_LEFT: y -= h / 2; break;
-	case ALIGN_CENTER: x -= w / 2; y -= h / 2; break;
 	case ALIGN_RIGHT: x -= w; y -= h / 2; break;
 	case ALIGN_BOTTOMLEFT: y -= h; break;
 	case ALIGN_BOTTOM: x -= w / 2; y -= h; break;
