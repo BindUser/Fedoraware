@@ -81,6 +81,7 @@ namespace Vars
 	CVar(Vignette, false, IS_VISUAL);
 	CVar(CloseOnUnfocus, false, IS_VISUAL);
 	CVar(MenuKey, 0);
+	CVar(DPI, 1.f)
 
 	SUBNAMESPACE_BEGIN(Style) // all of these are default values i apart from stuff specifically changed (i did not type all of this i gave chatgpt the imgui style struct and made this)
 	CVar(ItemWidth, 150.f, IS_VISUAL);

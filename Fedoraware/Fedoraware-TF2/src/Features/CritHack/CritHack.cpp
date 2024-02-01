@@ -391,7 +391,7 @@ void CCritHack::Run(CUserCmd* pCmd)
 	const int closestCrit = LastGoodCritTick(pCmd);
 	const int closestSkip = LastGoodSkipTick(pCmd);
 
-	bool pressed = F::KeyHandler.Down(Vars::CritHack::CritKey.Value);
+	bool pressed = F::CritKey.Down(Vars::CritHack::CritKey.Value);
 	if (!pressed && Vars::CritHack::AlwaysMelee.Value && pWeapon->GetSlot() == SLOT_MELEE)
 		pressed = true;
 	if (bAttacking && !pWeapon->IsInReload()) // is it valid & should we even use it
