@@ -41,9 +41,3 @@ public:
 		return !Down() && shouldCheck;
 	}
 };
-
-namespace F {
-
-inline KeyHelper CritKey;
-
-}
