@@ -154,10 +154,10 @@ void CCritHack::GetTotalCrits(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon) /
 	auto& weaponData = tfWeaponInfo->GetWeaponData(0);
 
 	float flDamage = weaponData.m_nDamage;
-	flDamage = Utils::ATTRIB_HOOK_FLOAT(flDamage, "mult_dmg", pWeapon);
+	flDamage = Utils::ATTRIB_HOOK_FLOAT(flDamage, "mult_dmg", pWeapon, 0, true);
 	int nProjectilesPerShot = weaponData.m_nBulletsPerShot;
 	if (nProjectilesPerShot >= 1)
-		nProjectilesPerShot = Utils::ATTRIB_HOOK_FLOAT(nProjectilesPerShot, "mult_bullets_per_shot", pWeapon);
+		nProjectilesPerShot = Utils::ATTRIB_HOOK_FLOAT(nProjectilesPerShot, "mult_bullets_per_shot", pWeapon, 0, true);
 	else
 		nProjectilesPerShot = 1;
 	flDamage *= nProjectilesPerShot;
@@ -274,7 +274,7 @@ void CCritHack::FixHeavyRevBug(CUserCmd* pCmd)
 
 bool CCritHack::WeaponCanCrit(CBaseCombatWeapon* pWeapon)
 {
-	if (Utils::ATTRIB_HOOK_FLOAT(1.f, "mult_crit_chance", pWeapon) <= 0.f)
+	if (Utils::ATTRIB_HOOK_FLOAT(1.f, "mult_crit_chance", pWeapon, 0, true)) //<= 0.f)
 		return false;
 
 	switch (pWeapon->GetWeaponID())
@@ -578,8 +578,10 @@ void CCritHack::Draw()
 					if (bRapidFire && Storage[slot].StreamWait > 0)
 					{
 						const float time = std::max((TICKS_TO_TIME(Storage[slot].StreamWait - pLocal->m_nTickBase())), 0.f);
-						g_Draw.String(fFont, x, y, Vars::CritHack::Active.Value, align, std::format("Wait {:.1f}s", time).c_str());
-					}
+						g_Draw.String(fFont, x, y, { 255, 255, 255, 255 }, align, std::format("Wait {:.1f}s", time).c_str());
+						//g_Draw.String(fFont, x, y, Vars::CritHack::Active.Value, align, std::format("Wait {:.1f}s", time).c_str());
+						//how the fuck does this old one works on rei's fork without having any errors??
+ 					}
 					else
 						g_Draw.String(fFont, x, y, { 150, 255, 150, 255 }, align, "Crit Ready");
 				}
@@ -591,12 +593,12 @@ void CCritHack::Draw()
 				}
 			}
 			else
-				g_Draw.String(fFont, x, y, { 255, 150, 150, 255 }, align, std::format("Deal {} damage", DamageTilUnban).c_str());
+			g_Draw.String(fFont, x, y, { 255, 150, 150, 255 }, align, std::format("Deal {} damage", DamageTilUnban).c_str());
 
-			g_Draw.String(fFont, x, y + fFont.nTall + 2, Vars::CritHack::Active.Value, align, std::format("{} / {} potential crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
+			g_Draw.String(fFont, x, y + Vars::Fonts::FONT_INDICATORS::nTall.Value + 2, { 255, 255, 255, 255 }, align, std::format("{} / {} potential Crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
 		}
 		else
-			g_Draw.String(fFont, x, y, Vars::CritHack::Active.Value, align, "Calculating");
+		    g_Draw.String(fFont, x, y, { 255, 255, 255, 255 }, align, "Calculating");
 
 		if (Vars::Debug::DebugInfo.Value)
 		{
