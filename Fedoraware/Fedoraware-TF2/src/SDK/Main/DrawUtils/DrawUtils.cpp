@@ -62,14 +62,6 @@ void CDraw::String(const Font_t& font, int x, int y, const Color_t& clr, const E
 	switch (align)
 	{
 	case ALIGN_DEFAULT: break;
-	case ALIGN_CENTER:
-		{
-			int w = 0, h = 0;
-			I::VGuiSurface->GetTextSize(dwFont, wstr, w, h);
-			x -= (w / 2);
-			y -= (h / 2);
-			break;
-		}
 	case ALIGN_CENTERVERTICAL:
 		{
 			int w = 0, h = 0;
@@ -104,6 +96,7 @@ void CDraw::String(const Font_t& font, int x, int y, const Color_t& clr, const E
 	case ALIGN_BOTTOMLEFT: y -= h; break;
 	case ALIGN_BOTTOM: x -= w / 2; y -= h; break;
 	case ALIGN_BOTTOMRIGHT: x -= w; y -= h; break;
+	case ALIGN_CENTER: x -= w / 2; y -= h / 2; break;
 	}
 
 	I::VGuiSurface->DrawSetTextPos(x, y);
