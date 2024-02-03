@@ -579,8 +579,7 @@ void CCritHack::Draw()
 					{
 						const float time = std::max((TICKS_TO_TIME(Storage[slot].StreamWait - pLocal->m_nTickBase())), 0.f);
 						g_Draw.String(fFont, x, y, { 255, 255, 255, 255 }, align, std::format("Wait {:.1f}s", time).c_str());
-						//g_Draw.String(fFont, x, y, Vars::CritHack::Active.Value, align, std::format("Wait {:.1f}s", time).c_str());
-						//how the fuck does this old one works on rei's fork without having any errors??
+						//how the fuck does the previous old one works on rei's fork without having any errors??
  					}
 					else
 						g_Draw.String(fFont, x, y, { 150, 255, 150, 255 }, align, "Crit Ready");
