@@ -543,7 +543,7 @@ void CCritHack::Draw()
 	int x = Vars::CritHack::IndicatorPos.Value.c;
 	int y = Vars::CritHack::IndicatorPos.Value.y + 8;
 
-	const auto& fFont = g_Draw.GetFont(FONT_INDICATORS);
+	const auto& Font = g_Draw.GetFont(FONT_INDICATORS); //fFont
 
 	EStringAlign align = ALIGN_TOP;
 	if (x <= (100 + 50 * Vars::Menu::DPI.Value))
@@ -565,11 +565,11 @@ void CCritHack::Draw()
 		if (Storage[slot].Damage > 0)
 		{
 			if (pLocal->IsCritBoosted())
-				g_Draw.String(fFont, x, y, { 100, 255, 255, 255 }, align, "Crit Boosted");
+				g_Draw.String(Font, x, y, { 100, 255, 255, 255 }, align, "Crit Boosted");
 			else if (bRapidFire && Storage[slot].StreamEnd > 0)
 			{
 				const float time = std::max(TICKS_TO_TIME(Storage[slot].StreamEnd - pLocal->m_nTickBase()), 0.f);
-				g_Draw.String(fFont, x, y, { 100, 255, 255, 255 }, align, std::format("Streaming crits {:.1f}s", time).c_str());
+				g_Draw.String(Font, x, y, { 100, 255, 255, 255 }, align, std::format("Streaming crits {:.1f}s", time).c_str());
 			}
 			else if (!CritBanned)
 			{
@@ -578,36 +578,36 @@ void CCritHack::Draw()
 					if (bRapidFire && Storage[slot].StreamWait > 0)
 					{
 						const float time = std::max((TICKS_TO_TIME(Storage[slot].StreamWait - pLocal->m_nTickBase())), 0.f);
-						g_Draw.String(fFont, x, y, { 255, 255, 255, 255 }, align, std::format("Wait {:.1f}s", time).c_str());
+						g_Draw.String(Font, x, y, { 181, 181, 181, 255 }, align, std::format("Wait {:.1f}s", time).c_str());
 						//how the fuck does the previous old one works on rei's fork without having any errors??
  					}
 					else
-						g_Draw.String(fFont, x, y, { 150, 255, 150, 255 }, align, "Crit Ready");
+						g_Draw.String(Font, x, y, { 150, 255, 150, 255 }, align, "Crit Ready");
 				}
 				else
 				{
 					const float damage = Storage[slot].Damage;
 					const int shots = Storage[slot].Cost / damage - (Storage[slot].Bucket/* - std::max(BucketBottom, -Storage[pWeapon->GetSlot()].Cost)*/) / damage + 1;
-					g_Draw.String(fFont, x, y, { 255, 150, 150, 255 }, align, shots == 1 ? std::format("Crit in {} shot", shots).c_str() : std::format("Crit in {} shots", shots).c_str());
+					g_Draw.String(Font, x, y, { 255, 150, 150, 255 }, align, shots == 1 ? std::format("Crit in {} shot", shots).c_str() : std::format("Crit in {} shots", shots).c_str());
 				}
 			}
 			else
-			g_Draw.String(fFont, x, y, { 255, 150, 150, 255 }, align, std::format("Deal {} damage", DamageTilUnban).c_str());
+			g_Draw.String(Font, x, y, { 255, 150, 150, 255 }, align, std::format("Deal {} damage", DamageTilUnban).c_str());
 
-			g_Draw.String(fFont, x, y + Vars::Fonts::FONT_INDICATORS::nTall.Value + 2, { 255, 255, 255, 255 }, align, std::format("{} / {} potential Crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
+			g_Draw.String(Font, x, y + Vars::Fonts::FONT_INDICATORS::nTall.Value + 2, { 181, 181, 181, 255 }, align, std::format("{} / {} potential Crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
 		}
 		else
-		    g_Draw.String(fFont, x, y, { 255, 255, 255, 255 }, align, "Calculating");
+		    g_Draw.String(Font, x, y, { 181, 181, 181, 255 }, align, "Calculating");
 
 		if (Vars::Debug::DebugInfo.Value)
 		{
-			g_Draw.String(fFont, x, y + fFont.nTall * 3, { 255, 255, 255, 255 }, align, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
-			g_Draw.String(fFont, x, y + fFont.nTall * 4, { 255, 255, 255, 255 }, align, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
-			g_Draw.String(fFont, x, y + fFont.nTall * 5, { 255, 255, 255, 255 }, align, std::format("Damage: {}, Cost: {}", Storage[slot].Damage, Storage[slot].Cost).c_str());
-			g_Draw.String(fFont, x, y + fFont.nTall * 6, { 255, 255, 255, 255 }, align, std::format("Shots: {}, Crits: {}", Storage[slot].ShotsCrits.first, Storage[slot].ShotsCrits.second).c_str());
-			g_Draw.String(fFont, x, y + fFont.nTall * 7, { 255, 255, 255, 255 }, align, std::format("CritBanned: {}, DamageTilUnban: {}", CritBanned, DamageTilUnban).c_str());
-			g_Draw.String(fFont, x, y + fFont.nTall * 8, { 255, 255, 255, 255 }, align, std::format("CritChance: {:.2f}", CritChance).c_str());
-			g_Draw.String(fFont, x, y + fFont.nTall * 9, { 255, 255, 255, 255 }, align, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
+			g_Draw.String(Font, x, y + Font.nTall * 3, { 181, 181, 181, 255 }, align, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
+			g_Draw.String(Font, x, y + Font.nTall * 4, { 181, 181, 181, 255 }, align, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
+			g_Draw.String(Font, x, y + Font.nTall * 5, { 181, 181, 181, 255 }, align, std::format("Damage: {}, Cost: {}", Storage[slot].Damage, Storage[slot].Cost).c_str());
+			g_Draw.String(Font, x, y + Font.nTall * 6, { 181, 181, 181, 255 }, align, std::format("Shots: {}, Crits: {}", Storage[slot].ShotsCrits.first, Storage[slot].ShotsCrits.second).c_str());
+			g_Draw.String(Font, x, y + Font.nTall * 7, { 181, 181, 181, 255 }, align, std::format("CritBanned: {}, DamageTilUnban: {}", CritBanned, DamageTilUnban).c_str());
+			g_Draw.String(Font, x, y + Font.nTall * 8, { 181, 181, 181, 255 }, align, std::format("CritChance: {:.2f}", CritChance).c_str());
+			g_Draw.String(Font, x, y + Font.nTall * 9, { 181, 181, 181, 255 }, align, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
 		}
 	}
 }

@@ -787,7 +787,7 @@ namespace Vars
 	CVar(TauntSpinKey, 0);
 	CVar(TauntSpinSpeed, 5.f);
 	CVar(TauntFollowsCamera, false);
-	CVar(BypassPure, false);
+	CVar(BypassPure, true);
 	CVar(NoisemakerSpam, false);
 	CVar(DisableInterpolation, true);
 	CVar(FixInputDelay, false);
