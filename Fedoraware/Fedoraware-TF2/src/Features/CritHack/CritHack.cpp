@@ -543,10 +543,8 @@ void CCritHack::Draw()
 	int x = Vars::CritHack::IndicatorPos.Value.c;
 	int y = Vars::CritHack::IndicatorPos.Value.y + 8;
 
-    int longestW = 40;
 	const auto& FONT = g_Draw.GetFont(FONT_INDICATORS); //fFont
 
-	/*
 	EStringAlign align = ALIGN_TOP;
 	if (x <= (100 + 50 * Vars::Menu::DPI.Value))
 	{
@@ -558,7 +556,6 @@ void CCritHack::Draw()
 		x += 42 * Vars::Menu::DPI.Value;
 		align = ALIGN_TOPRIGHT;
 	} 
-	*/
 
 	if (WeaponCanCrit(pWeapon))
 	{
@@ -581,7 +578,7 @@ void CCritHack::Draw()
 					if (bRapidFire && Storage[slot].StreamWait > 0)
 					{
 						const float time = std::max((TICKS_TO_TIME(Storage[slot].StreamWait - pLocal->m_nTickBase())), 0.f);
-						g_Draw.String(FONT, x, y, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Wait {:.1f}s", time).c_str());
+						g_Draw.String(FONT, x, y, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Wait {:.1f}s", time).c_str());
 						//how the fuck does the previous old one works on rei's fork without having any errors??
  					}
 					else
@@ -597,20 +594,20 @@ void CCritHack::Draw()
 			else
 			g_Draw.String(FONT, x, y, { 255, 150, 150, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Deal {} damage", DamageTilUnban).c_str());
 
-			g_Draw.String(FONT, x, y + Vars::Fonts::FONT_INDICATORS::nTall.Value + 2, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("{} / {} potential Crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
+			g_Draw.String(FONT, x, y + Vars::Fonts::FONT_INDICATORS::nTall.Value + 2, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("{} / {} potential Crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
 		}
 		else
-		    g_Draw.String(FONT, x, y, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, "Calculating");
+		    g_Draw.String(FONT, x, y, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "Calculating");
 
 		if (Vars::Debug::DebugInfo.Value)
 		{
-			g_Draw.String(FONT, x, y + FONT.nTall * 3, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 4, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 5, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Damage: {}, Cost: {}", Storage[slot].Damage, Storage[slot].Cost).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 6, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Shots: {}, Crits: {}", Storage[slot].ShotsCrits.first, Storage[slot].ShotsCrits.second).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 7, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritBanned: {}, DamageTilUnban: {}", CritBanned, DamageTilUnban).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 8, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritChance: {:.2f}", CritChance).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 9, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
+			g_Draw.String(FONT, x, y + FONT.nTall * 3, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
+			g_Draw.String(FONT, x, y + FONT.nTall * 4, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
+			g_Draw.String(FONT, x, y + FONT.nTall * 5, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Damage: {}, Cost: {}", Storage[slot].Damage, Storage[slot].Cost).c_str());
+			g_Draw.String(FONT, x, y + FONT.nTall * 6, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Shots: {}, Crits: {}", Storage[slot].ShotsCrits.first, Storage[slot].ShotsCrits.second).c_str());
+			g_Draw.String(FONT, x, y + FONT.nTall * 7, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritBanned: {}, DamageTilUnban: {}", CritBanned, DamageTilUnban).c_str());
+			g_Draw.String(FONT, x, y + FONT.nTall * 8, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritChance: {:.2f}", CritChance).c_str());
+			g_Draw.String(FONT, x, y + FONT.nTall * 9, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
 		}
 	}
 }
