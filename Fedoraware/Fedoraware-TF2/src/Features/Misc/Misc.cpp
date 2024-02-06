@@ -760,6 +760,9 @@ void CMisc::NoiseMakerSpam(CBaseEntity* pLocal)
 	}
 }
 
+
+
+
 const std::string SPAM_FEDORAWARE[] = {
 	"Fedoraware - github.com/Fedoraware",
 	"Fedoraware - Best free and open-source cheat!",
@@ -781,8 +784,7 @@ const std::string SPAM_CATHOOK[] = {
 };
 
 const std::string SPAM_LOL[] = {
-	"#TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024",
-	"                    "
+	"#TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024 TRUMP2024"
 };
 
 /* Chat & Voicechat Spam */
@@ -855,14 +857,9 @@ void CMisc::AutoRocketJump(CUserCmd* pCmd, CBaseEntity* pLocal)
 
 	if (const auto& pWeapon = g_EntityCache.GetWeapon())
 	{
-		if (pWeapon->IsInReload())
+		if (pWeapon->IsInReload() !=0)
 		{
 			pCmd->buttons |= IN_ATTACK;
-			return;
-		}
-		if (pCmd->buttons & IN_ATTACK)
-		{
-			pCmd->buttons &= ~IN_ATTACK;
 		}
 
 		if (G::CurItemDefIndex == Soldier_m_TheBeggarsBazooka
@@ -898,6 +895,7 @@ void CMisc::AutoRocketJump(CUserCmd* pCmd, CBaseEntity* pLocal)
 	}
 }
 
+// Auto FaN jump
 bool IsForceANature()
 {
 	return (G::CurItemDefIndex == Scout_m_ForceANature || G::CurItemDefIndex == Scout_m_FestiveForceANature);
