@@ -1746,7 +1746,7 @@ void CMenu::MenuHvH()
 			}
 
 			WCombo("Real Pitch", &Vars::AntiHack::AntiAim::PitchReal.Value, { "None", "Up", "Down", "Zero", "Custom"}); HelpMarker("The pitch your hitboxes will be built around.");
-			WCombo("Fake Pitch", &Vars::AntiHack::AntiAim::PitchFake.Value, { "None", "Up", "Down"}); HelpMarker("The pitch that other players will see.");
+			WCombo("Fake Pitch", &Vars::AntiHack::AntiAim::PitchFake.Value, { "None", "Up", "Down", "Jitter"}); HelpMarker("The pitch that other players will see.");
 			if (Vars::AntiHack::AntiAim::PitchReal.Value == 4) {
 				WSlider("Custom Real Pitch", &Vars::AntiHack::AntiAim::CustomRealPitch.Value, -89.f, 89.f, "%.0f", 0);
 			}

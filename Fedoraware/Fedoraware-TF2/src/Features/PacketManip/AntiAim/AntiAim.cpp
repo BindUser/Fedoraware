@@ -79,6 +79,7 @@ inline float CAntiAim::CalculateCustomRealPitch(float WishPitch, bool FakeDown) 
 //	0 - None
 //	1 - Up
 //	2 - Down
+//  3 - Jitter
 //	3 - Zero
 //	4 - Custom
 //	3 and 4 not available for iFake
@@ -91,9 +92,12 @@ inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float fl
 		return iFake ? CalculateCustomRealPitch(89.f, iFake - 1) : 89.f;
 	}
 	case 3: {
-		return iFake ? CalculateCustomRealPitch(0.f, iFake - 1) : 0.f;
+        return iFake ? CalculateCustomRealPitch(89.f, -89.f) : 89.f,-89.f ;
 	}
 	case 4: {
+		return iFake ? CalculateCustomRealPitch(0.f, iFake - 1) : 0.f;
+	}
+	case 5: {
 		return iFake ? CalculateCustomRealPitch(Vars::AntiHack::AntiAim::CustomRealPitch.Value, iFake - 1) : Vars::AntiHack::AntiAim::CustomRealPitch.Value;
 	}
 	}
