@@ -70,6 +70,8 @@ namespace G
 
 	/* Angles */
 	inline Vec3 ViewAngles = {};
+	inline Vec3 RealViewAngles = {};
+	inline Vec3 FakeViewAngles = {};
 	inline Vec3 PunchAngles = {};
 
 	/* Projectile prediction */

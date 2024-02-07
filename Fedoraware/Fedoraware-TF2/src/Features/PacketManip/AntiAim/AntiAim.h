@@ -9,13 +9,14 @@ private:
 	inline void FakeShotAngles(CUserCmd* pCmd);
 	inline void Keybinds();
 	inline void SpinAngles();
+	void FixMovement(CUserCmd* pCmd, const Vec3& vOldAngles, float fOldSideMove, float fOldForwardMove);
 
 	//	logic
 	float EdgeDistance(const float flEdgeRayYaw, CBaseEntity* pEntity);
 
 	// angles
 	inline float CalculateCustomRealPitch(const float flWishPitch, const bool bFakeDown);
-	inline float GetPitch(const int iFake, const int iReal, const float flCurPitch);
+	void GetPitch(int iMode, CUserCmd* pCmd);
 	inline float GetYawOffset(const int iIndex, const bool bFake);
 	float GetBaseYaw(int iMode, CBaseEntity* pLocal, CUserCmd* pCmd);
 

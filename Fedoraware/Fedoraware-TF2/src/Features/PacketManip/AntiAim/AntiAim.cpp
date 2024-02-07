@@ -79,30 +79,17 @@ inline float CAntiAim::CalculateCustomRealPitch(float WishPitch, bool FakeDown) 
 //	0 - None
 //	1 - Up
 //	2 - Down
-//  3 - Jitter
-//	3 - Zero
-//	4 - Custom
-//	3 and 4 not available for iFake
-inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float flCurPitch) {
-	switch (iReal) {
-	case 1: {
-		return iFake ? CalculateCustomRealPitch(-89.f, iFake - 1) : -89.f;
-	}
-	case 2: {
-		return iFake ? CalculateCustomRealPitch(89.f, iFake - 1) : 89.f;
-	}
-	case 3: {
-        return iFake ? CalculateCustomRealPitch(89.f, -89.f) : 89.f,-89.f ;
-	}
-	case 4: {
-		return iFake ? CalculateCustomRealPitch(0.f, iFake - 1) : 0.f;
-	}
-	case 5: {
-		return iFake ? CalculateCustomRealPitch(Vars::AntiHack::AntiAim::CustomRealPitch.Value, iFake - 1) : Vars::AntiHack::AntiAim::CustomRealPitch.Value;
-	}
+//  3 - Jitter Up
+//	4 - Jitter Down
+void CAntiAim::GetPitch(int iMode, CUserCmd* pCmd) 
+{
+	switch (iMode) {
+	case 1: { pCmd->viewangles.x = -89.f; G::FakeViewAngles.x = -89.f; return; }
+	case 2: { pCmd->viewangles.x = 89.f ; G::FakeViewAngles.x = 89.f; return; }
+	case 3: { pCmd->viewangles.x = -271.f; G::FakeViewAngles.x = -89.f; return; }
+	case 4: { pCmd->viewangles.x = 271.f; G::FakeViewAngles.x = 89.f; return; }
 	}
 
-	return iFake ? -89.f + (89.f * (iFake - 1)) : flCurPitch;	//	just in case someone forgets to put in a real pitch.
 }
 
 //	Get Yaw
@@ -195,11 +182,9 @@ void CAntiAim::Run(CUserCmd* pCmd, bool* pSendPacket) {
 	G::UpdateView = false;
 
 	flBaseYaw = !iNetChan->m_nChokedPackets ? GetBaseYaw(Vars::AntiHack::AntiAim::BaseYawMode.Value, pLocal, pCmd) : flBaseYaw;	//	get base yaw on the first choked tick.
-	vAngles = {
-		GetPitch(Vars::AntiHack::AntiAim::PitchFake.Value, Vars::AntiHack::AntiAim::PitchReal.Value, pCmd->viewangles.x), 
-		flBaseYaw + GetYawOffset(bSendingReal ? Vars::AntiHack::AntiAim::YawReal.Value : Vars::AntiHack::AntiAim::YawFake.Value, !bSendingReal)
-	};
-	Utils::FixMovement(pCmd, vAngles);
-	pCmd->viewangles.x = vAngles.x;
-	pCmd->viewangles.y = vAngles.y;
-}
+	//get pitch, this is bad
+	GetPitch(Vars::AntiHack::AntiAim::PitchReal.Value, pCmd);
+	GetPitch(Vars::AntiHack::AntiAim::PitchFake.Value, pCmd);
+    //get yaw
+    flBaseYaw + GetYawOffset(bSendingReal ? Vars::AntiHack::AntiAim::YawReal.Value : Vars::AntiHack::AntiAim::YawFake.Value, !bSendingReal);
+	}
