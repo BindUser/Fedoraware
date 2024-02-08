@@ -11,7 +11,7 @@ struct WeaponStorage
 	float BaseDamage = 0.f; // literally fucking unused, yet causes crash with some weapons if removed ??
 	float Damage = 0.f;
 	float BaseCost = 0.f;
-	std::pair<int, int> ShotsCrits = { 0, 0 };
+	std::pair<int, int> ShotsCrits = { 1, 0 };
 	float Cost = 0.f;
 
 	int AvailableCrits = 0;
@@ -58,6 +58,7 @@ private:
 	bool CritBanned = false;
 	int DamageTilUnban = 0;
 	float CritChance = 0.f;
+	int WishRandomSeed = 0;
 
 public:
 

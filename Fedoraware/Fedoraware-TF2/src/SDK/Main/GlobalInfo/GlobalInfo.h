@@ -63,6 +63,7 @@ namespace G
 	inline bool IsChoking = false; // might not actually be useful 
 
 	/* Aimbot */
+	inline bool IsAttacking = false;
 	inline bool HitscanRunning = false;
 	inline bool SilentTime = false;
 	inline Vec3 AimPos = {};
