@@ -208,7 +208,7 @@ namespace Vars
 	SUBNAMESPACE_BEGIN(Global)
 		CVar(Active, false)
 		CVar(AimKey, VK_XBUTTON1)
-		CVar(AimFOV, 15.0f)
+      //CVar(AimFOV, 15.0f)
 		CVar(AutoShoot, false)
 		CVar(DontWaitForShot, false)
 		CVar(FlickatEnemies, false)
@@ -227,6 +227,7 @@ namespace Vars
 
 	SUBNAMESPACE_BEGIN(Hitscan)
 		CVar(SortMethod, 0) //0 - FOV,		1 - Distance
+		CVar(AimFOV, 15.0f)
 		CVar(BackTrackMethod, 0)
 		CVar(RespectFOV, true)
 		CVar(AdaptiveMultiPoint, true)
@@ -255,6 +256,7 @@ namespace Vars
 
 	SUBNAMESPACE_BEGIN(Projectile)
 		CVar(SortMethod, 0) //0 - FOV,		1 - Distance
+		CVar(AimFOV, 15.f)
 		CVar(RespectFOV, true)
 		CVar(AimMethod, 1) //0 - Normal,	1 - Smooth, 2 - Silent
 		CVar(AimPosition, 3) // 0/head, 1/body, 2/feet, 3/auto

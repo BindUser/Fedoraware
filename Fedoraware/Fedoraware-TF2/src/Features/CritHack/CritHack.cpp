@@ -1,3 +1,8 @@
+// Credits to: github.com/rei-kes for the source
+// Couldn't get this shit to work for me
+
+
+
 #include "CritHack.h"
 #include "../TickHandler/TickHandler.h"
 

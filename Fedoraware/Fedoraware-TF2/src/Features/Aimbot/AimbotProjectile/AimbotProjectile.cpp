@@ -865,7 +865,7 @@ std::vector<Target_t> CAimbotProjectile::GetTargets(CBaseEntity* pLocal, CBaseCo
 			Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
-			if (respectFOV && flFOVTo > Vars::Aimbot::Global::AimFOV.Value)
+			if (flFOVTo > Vars::Aimbot::Global::AimFOV.Value)
 			{
 				continue;
 			}

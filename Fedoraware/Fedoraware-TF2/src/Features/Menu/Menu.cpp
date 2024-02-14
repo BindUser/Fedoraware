@@ -260,14 +260,14 @@ void CMenu::MenuAimbot()
 
 	if (BeginTable("AimbotTable", 3))
 	{
-		/* Column 1 */
+		/* Global */
 		if (TableColumnChild("AimbotCol1"))
 		{
 			SectionTitle("Global");
 			WToggle("Aimbot", &Vars::Aimbot::Global::Active.Value); HelpMarker("Aimbot master switch");
 			ColorPickerL("Target", Vars::Colours::Target.Value);
 			InputKeybind("Aimbot key", Vars::Aimbot::Global::AimKey); HelpMarker("The key to enable aimbot");
-			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+		  //WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 			ColorPickerL("Aimbot FOV circle", Vars::Colours::FOVCircle.Value);
 			WToggle("Autoshoot###AimbotAutoshoot", &Vars::Aimbot::Global::AutoShoot.Value); HelpMarker("Automatically shoot when a target is found");
 			MultiCombo({ "Players", "Buildings", "Stickies", "NPCs", "Bombs" }, { &Vars::Aimbot::Global::AimPlayers.Value, &Vars::Aimbot::Global::AimBuildings.Value, &Vars::Aimbot::Global::AimStickies.Value, &Vars::Aimbot::Global::AimNPC.Value, &Vars::Aimbot::Global::AimBombs.Value }, "Aim targets");
@@ -303,10 +303,11 @@ void CMenu::MenuAimbot()
 			WSlider("Amount of latency###BTLatency", &Vars::Backtrack::Latency.Value, 0, 800, "%d", ImGuiSliderFlags_AlwaysClamp); HelpMarker("This won't work on local servers");
 		} EndChild();
 
-		/* Column 2 */
+		/* Hitscan */
 		if (TableColumnChild("AimbotCol2"))
 		{
 			SectionTitle("Hitscan");
+			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 			WCombo("Sort method###HitscanSortMethod", &Vars::Aimbot::Hitscan::SortMethod.Value, { "FOV", "Distance" }); HelpMarker("Which method the aimbot uses to decide which target to aim at");
 			if (Vars::Aimbot::Hitscan::SortMethod.Value == 1)
 			{
@@ -377,10 +378,11 @@ void CMenu::MenuAimbot()
 			//WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("Will avoid shooting until the last shot hits");
 		} EndChild();
 
-		/* Column 3 */
+		/* Projectile */
 		if (TableColumnChild("AimbotCol3"))
 		{
 			SectionTitle("Projectile");
+			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 			WSlider("Prediction Time", &Vars::Aimbot::Projectile::PredictionTime.Value, 0.1f, 10.f, "%.1f");
 
 			{

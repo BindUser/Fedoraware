@@ -140,12 +140,6 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 				if (G::CurItemDefIndex == Spy_m_TheAmbassador || G::CurItemDefIndex ==
 					Spy_m_FestiveAmbassador)
 				{
-					// This doesn't work
-					/*if (pWeapon->GetWeaponData().m_nDamage >= Player->GetHealth())
-					{
-						nHitbox = HITBOX_PELVIS;
-					}*/
-					// Min damage is 18, max damage is 51 (non headshot)
 					const float flDistTo = pTarget->GetAbsOrigin().DistTo(pLocal->GetAbsOrigin());
 					const int nAmbassadorBodyshotDamage = Math::RemapValClamped(flDistTo, 90, 900, 51, 18);
 
@@ -165,9 +159,9 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 
 			const AimInfo_t tTargetInfo = F::AimbotGlobal.GetInfo(pTarget, vLocalPos, vLocalAngles, Vars::Aimbot::Hitscan::SortMethod.Value);
 
-			const Vec3 vPos = tTargetInfo.vPos;
-			const Vec3 vAngleTo = tTargetInfo.vAngleTo;
-			const float flFOVTo = tTargetInfo.flFoVTo;
+			Vec3 vPos = tTargetInfo.vPos;
+			Vec3 vAngleTo = tTargetInfo.vAngleTo;
+			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 			const float flDistTo = tTargetInfo.flDist;
 
 			const bool bPreserve = (PrioTarget == pTarget && Vars::Aimbot::Hitscan::PreserveTarget.Value);
