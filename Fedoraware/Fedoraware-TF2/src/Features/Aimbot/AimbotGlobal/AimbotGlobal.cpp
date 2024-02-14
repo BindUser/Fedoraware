@@ -36,7 +36,6 @@ namespace SandvichAimbot
 }
 
 //	eventually use this in everything
-/*
 AimInfo_t CAimbotGlobal::GetInfo(CBaseEntity* pTarget, const Vec3 vFrom, const Vec3 vAng, const bool bDist) {
 	float flBest = FLT_MAX;
 	AimInfo_t tReturn{};
@@ -54,7 +53,6 @@ AimInfo_t CAimbotGlobal::GetInfo(CBaseEntity* pTarget, const Vec3 vFrom, const V
 	}
 	return tReturn;
 }
-*/
 
 bool CAimbotGlobal::IsKeyDown()
 {
