@@ -208,7 +208,7 @@ namespace Vars
 	SUBNAMESPACE_BEGIN(Global)
 		CVar(Active, false)
 		CVar(AimKey, VK_XBUTTON1)
-      //CVar(AimFOV, 15.0f)
+        CVar(AimFOV, 15.0f)
 		CVar(AutoShoot, false)
 		CVar(DontWaitForShot, false)
 		CVar(FlickatEnemies, false)
