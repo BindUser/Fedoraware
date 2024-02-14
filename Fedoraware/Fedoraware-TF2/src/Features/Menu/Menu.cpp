@@ -264,11 +264,12 @@ void CMenu::MenuAimbot()
 		if (TableColumnChild("AimbotCol1"))
 		{
 			SectionTitle("Global");
+			
 			WToggle("Aimbot", &Vars::Aimbot::Global::Active.Value); HelpMarker("Aimbot master switch");
-			ColorPickerL("Target", Vars::Colours::Target.Value);
 			InputKeybind("Aimbot key", Vars::Aimbot::Global::AimKey); HelpMarker("The key to enable aimbot");
+			ColorPickerL("Target", Vars::Colours::Target.Value);
 		  //WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-			ColorPickerL("Aimbot FOV circle", Vars::Colours::FOVCircle.Value);
+		    ColorPickerL("Aimbot FOV circle", Vars::Colours::FOVCircle.Value);
 			WToggle("Autoshoot###AimbotAutoshoot", &Vars::Aimbot::Global::AutoShoot.Value); HelpMarker("Automatically shoot when a target is found");
 			MultiCombo({ "Players", "Buildings", "Stickies", "NPCs", "Bombs" }, { &Vars::Aimbot::Global::AimPlayers.Value, &Vars::Aimbot::Global::AimBuildings.Value, &Vars::Aimbot::Global::AimStickies.Value, &Vars::Aimbot::Global::AimNPC.Value, &Vars::Aimbot::Global::AimBombs.Value }, "Aim targets");
 			HelpMarker("Choose which targets the Aimbot should aim at");
