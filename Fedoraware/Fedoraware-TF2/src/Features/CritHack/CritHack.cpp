@@ -275,8 +275,13 @@ void CCritHack::FixHeavyRevBug(CUserCmd* pCmd)
 
 bool CCritHack::WeaponCanCrit(CBaseCombatWeapon* pWeapon)
 {
-	if (Utils::ATTRIB_HOOK_FLOAT(1.f, "mult_crit_chance", pWeapon, 0, true)) //<= 0.f)
-		return false;
+	float CritChance = Utils::ATTRIB_HOOK_FLOAT(1, "mult_crit_chance", pWeapon, 0, true);
+	if (CritChance == 0)
+	{
+		return true;
+	}
+	else 
+	return false;
 
 	switch (pWeapon->GetWeaponID())
 	{
@@ -300,10 +305,10 @@ bool CCritHack::WeaponCanCrit(CBaseCombatWeapon* pWeapon)
 	case TF_WEAPON_PDA_ENGINEER_BUILD:
 	case TF_WEAPON_PDA_ENGINEER_DESTROY:
 	case TF_WEAPON_BUILDER:
-		return false;
+		return true;
+		break;
+		default: return false; break;
 	}
-
-	return true;
 }
 
 
@@ -541,21 +546,18 @@ void CCritHack::Draw()
 	int x = Vars::CritHack::IndicatorPos.Value.c;
 	int y = Vars::CritHack::IndicatorPos.Value.y + 8;
 
+	const float bucket = *reinterpret_cast<float*>(pWeapon + 0xA54);
+	const int seedRequests = *reinterpret_cast<int*>(pWeapon + 0xA5C);
+
+    int longestW = 40;
 	const auto& FONT= g_Draw.GetFont(FONT_INDICATORS);
 
-	EStringAlign align = ALIGN_TOP;
-	if (x <= (100 + 50 * Vars::Menu::DPI.Value))
+    if (Vars::Debug::DebugInfo.Value)
 	{
-		x -= 42 * Vars::Menu::DPI.Value;
-		align = ALIGN_TOPLEFT;
+		g_Draw.String(FONT, x, y += 15, { 255, 255, 255, 255, }, ALIGN_CENTERHORIZONTAL, std::format("{:#x}", reinterpret_cast<uintptr_t>(pWeapon + 0xA54)).c_str());
 	}
-	else if (x >= g_ScreenSize.w - (100 + 50 * Vars::Menu::DPI.Value))
-	{
-		x += 42 * Vars::Menu::DPI.Value;
-		align = ALIGN_TOPRIGHT;
-	} 
 
-	if (WeaponCanCrit(pWeapon))
+	if (WeaponCanCrit(pWeapon) == true)
 	{
 		const auto slot = pWeapon->GetSlot();
 		const auto bRapidFire = pWeapon->IsRapidFire();
@@ -563,11 +565,11 @@ void CCritHack::Draw()
 		if (Storage[slot].Damage > 0)
 		{
 			if (pLocal->IsCritBoosted())
-				g_Draw.String(FONT, x, y, { 100, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "Crit Boosted");
+				g_Draw.String(FONT, x, y +=15, { 100, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "Crit Boosted");
 			else if (bRapidFire && Storage[slot].StreamEnd > 0)
 			{
 				const float time = std::max(TICKS_TO_TIME(Storage[slot].StreamEnd - pLocal->m_nTickBase()), 0.f);
-				g_Draw.String(FONT, x, y, { 100, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Streaming crits {:.1f}s", time).c_str());
+				g_Draw.String(FONT, x, y +=15, { 100, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Streaming crits {:.1f}s", time).c_str());
 			}
 			else if (!CritBanned)
 			{
@@ -576,26 +578,25 @@ void CCritHack::Draw()
 					if (bRapidFire && Storage[slot].StreamWait > 0)
 					{
 						const float time = std::max((TICKS_TO_TIME(Storage[slot].StreamWait - pLocal->m_nTickBase())), 0.f);
-						g_Draw.String(FONT, x, y, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Wait {:.1f}s", time).c_str());
-						//how the fuck does the previous old one works on rei's fork without having any errors??
+						g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Wait {:.1f}s", time).c_str());
  					}
 					else
-						g_Draw.String(FONT, x, y, { 150, 255, 150, 255 }, ALIGN_CENTERHORIZONTAL, "Crit Ready");
+						g_Draw.String(FONT, x, y +=15, { 150, 255, 150, 255 }, ALIGN_CENTERHORIZONTAL, "Crit Ready");
 				}
 				else
 				{
 					const float damage = Storage[slot].Damage;
-					const int shots = Storage[slot].Cost / damage - (Storage[slot].Bucket/* - std::max(BucketBottom, -Storage[pWeapon->GetSlot()].Cost)*/) / damage + 1;
-					g_Draw.String(FONT, x, y, { 255, 150, 150, 255 }, ALIGN_CENTERHORIZONTAL, shots == 1 ? std::format("Crit in {} shot", shots).c_str() : std::format("Crit in {} shots", shots).c_str());
+					const int shots = Storage[slot].Cost / damage - (Storage[slot].Bucket) / damage + 1;
+					g_Draw.String(FONT, x, y +=15, { 255, 150, 150, 255 }, ALIGN_CENTERHORIZONTAL, shots == 1 ? std::format("Crit in {} shot", shots).c_str() : std::format("Crit in {} shots", shots).c_str());
 				}
 			}
 			else
-			g_Draw.String(FONT, x, y, { 255, 150, 150, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Deal {} damage", DamageTilUnban).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 150, 150, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Deal {} damage", DamageTilUnban).c_str());
 
-			g_Draw.String(FONT, x, y + Vars::Fonts::FONT_INDICATORS::nTall.Value + 2, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("{} / {} potential Crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("{} / {} potential Crits", Storage[slot].AvailableCrits, Storage[slot].PotentialCrits).c_str());
 		}
 		else
-		    g_Draw.String(FONT, x, y, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "Calculating");
+		    g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "Calculating");
 
 		if (Vars::Debug::DebugInfo.Value)
 		{
@@ -607,8 +608,8 @@ void CCritHack::Draw()
 			g_Draw.String(FONT, x, y + FONT.nTall * 8, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritChance: {:.2f}", CritChance).c_str());
 			g_Draw.String(FONT, x, y + FONT.nTall * 9, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
 
-            g_Draw.String(FONT, x, y + FONT.nTall * 11, { 255, 255, 255, 255 }, align, L"G::WeaponCanAttack %d (%d)", G::WeaponCanAttack, I::GlobalVars->tickcount % 66);
-            g_Draw.String(FONT, x, y + FONT.nTall * 12, { 255, 255, 255, 255 }, align, L"G::IsAttacking %d", G::IsAttacking);
+            g_Draw.String(FONT, x, y + FONT.nTall * 11, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"G::WeaponCanAttack %d (%d)", G::WeaponCanAttack, I::GlobalVars->tickcount % 66);
+            g_Draw.String(FONT, x, y + FONT.nTall * 12, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"G::IsAttacking %d", G::IsAttacking);
 		}
 	}
 }
