@@ -600,16 +600,16 @@ void CCritHack::Draw()
 
 		if (Vars::Debug::DebugInfo.Value)
 		{
-			g_Draw.String(FONT, x, y + FONT.nTall * 3, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 4, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 5, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Damage: {}, Cost: {}", Storage[slot].Damage, Storage[slot].Cost).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 6, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Shots: {}, Crits: {}", Storage[slot].ShotsCrits.first, Storage[slot].ShotsCrits.second).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 7, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritBanned: {}, DamageTilUnban: {}", CritBanned, DamageTilUnban).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 8, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritChance: {:.2f}", CritChance).c_str());
-			g_Draw.String(FONT, x, y + FONT.nTall * 9, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("AllDamage: {}, CritDamage: {}", AllDamage, CritDamage).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Bucket: {}", Storage[slot].Bucket).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Damage: {}, Cost: {}", Storage[slot].Damage, Storage[slot].Cost).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Shots: {}, Crits: {}", Storage[slot].ShotsCrits.first, Storage[slot].ShotsCrits.second).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritBanned: {}, DamageTilUnban: {}", CritBanned, DamageTilUnban).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("CritChance: {:.2f}", CritChance).c_str());
+			g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, std::format("Force: {}, Skip: {}", ForceCmds.size(), SkipCmds.size()).c_str());
 
-            g_Draw.String(FONT, x, y + FONT.nTall * 11, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"G::WeaponCanAttack %d (%d)", G::WeaponCanAttack, I::GlobalVars->tickcount % 66);
-            g_Draw.String(FONT, x, y + FONT.nTall * 12, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"G::IsAttacking %d", G::IsAttacking);
+            g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"G::WeaponCanAttack %d (%d)", G::WeaponCanAttack, I::GlobalVars->tickcount % 66);
+            g_Draw.String(FONT, x, y +=15, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"G::IsAttacking %d", G::IsAttacking);
 		}
 	}
 }

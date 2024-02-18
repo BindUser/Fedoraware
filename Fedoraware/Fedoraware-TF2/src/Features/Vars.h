@@ -1033,7 +1033,7 @@ namespace Vars
 		CVar(Cloak, Color_t(165, 177, 194, 255), IS_VISUAL);
 		CVar(Friend, Color_t(32, 191, 107, 255), IS_VISUAL);
 		CVar(Local, Color_t(168, 255, 211, 255), IS_VISUAL);
-		CVar(Ignored, Color_t(32, 191, 107, 255), IS_VISUAL);
+		CVar(Ignored, Color_t(192, 192, 192, 255), IS_VISUAL);
 		CVar(Rage, Color_t(255, 255, 0, 255), IS_VISUAL);
 		CVar(Cheater, Color_t(255, 0, 0, 255), IS_VISUAL);
 		CVar(Overheal, Color_t(84, 160, 255, 255), IS_VISUAL);

@@ -409,7 +409,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						}
 						case 1:
 						{
-							g_Draw.String(FONT, middle, y - nTextOffset, Vars::Colours::Friend.Value, ALIGN_CENTERHORIZONTAL, "IGNORED");
+							g_Draw.String(FONT, middle, y - nTextOffset, Vars::Colours::Ignored.Value, ALIGN_CENTERHORIZONTAL, "IGNORED");
 							nTextOffset += FONT.nTall;
 							break;
 						}
