@@ -1031,11 +1031,11 @@ namespace Vars
 		CVar(Target, Color_t(240, 147, 43, 255), IS_VISUAL);
 		CVar(Invuln, Color_t(120, 111, 166, 255), IS_VISUAL);
 		CVar(Cloak, Color_t(165, 177, 194, 255), IS_VISUAL);
-		CVar(Friend, Color_t(32, 191, 107, 255), IS_VISUAL);
+		CVar(Friend, Color_t(32, 191, 107, 255), IS_VISUAL); //light green
 		CVar(Local, Color_t(168, 255, 211, 255), IS_VISUAL);
-		CVar(Ignored, Color_t(192, 192, 192, 255), IS_VISUAL);
-		CVar(Rage, Color_t(255, 255, 0, 255), IS_VISUAL);
-		CVar(Cheater, Color_t(255, 0, 0, 255), IS_VISUAL);
+		CVar(Ignored, Color_t(192, 192, 192, 255), IS_VISUAL); //light grey
+		CVar(Rage, Color_t(255, 255, 0, 255), IS_VISUAL); //red
+		CVar(Cheater, Color_t(255, 0, 0, 255), IS_VISUAL); //red
 		CVar(Overheal, Color_t(84, 160, 255, 255), IS_VISUAL);
 		CVar(Health, Color_t(0, 230, 64, 255), IS_VISUAL);
 		CVar(Ammo, Color_t(191, 191, 191, 255), IS_VISUAL);

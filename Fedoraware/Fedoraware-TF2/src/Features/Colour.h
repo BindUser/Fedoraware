@@ -55,7 +55,7 @@ __inline Color_t GetEntityDrawColour(CBaseEntity* pEntity, bool enableOtherColor
 			out = Vars::Colours::Friend.Value;
 		}
 
-		else if (G::IsIgnored(info.friendsID))
+		else if (G::PlayerPriority[info.friendsID].Mode == 1)
 		{
 			out = Vars::Colours::Ignored.Value;
 		}

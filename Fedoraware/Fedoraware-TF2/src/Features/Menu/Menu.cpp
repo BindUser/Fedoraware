@@ -622,13 +622,12 @@ void CMenu::MenuVisuals()
 					{
 						Text("Friend Color");
 						ColorPickerL("Frignore Color", Vars::Colours::Friend.Value);
+						Text("Ignored Color");
+						ColorPickerL("Ignored Color", Vars::Colours::Ignored.Value);
 						Text("Rage Color");
 						ColorPickerL("Rage Color", Vars::Colours::Rage.Value);
 						Text("Cheater Color");
 						ColorPickerL("Cheater Color", Vars::Colours::Cheater.Value);
-						Text("Ignored Color");
-						ColorPickerL("Ignored Color", Vars::Colours::Ignored.Value);
-
 					}
 					WCombo("Box###PlayerBoxESP", &Vars::ESP::Players::Box.Value, { "Off", "Bounding", "Cornered", "3D" }); HelpMarker("What sort of box to draw on players");
 					if (Vars::ESP::Players::Box.Value == 2)
