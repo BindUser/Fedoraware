@@ -302,6 +302,13 @@ void CMenu::MenuAimbot()
 			WToggle("Allow Forward Tracking", &Vars::Backtrack::AllowForward.Value);
 			WCombo("Backtrack Method###HitscanBacktrackMethod", &Vars::Aimbot::Hitscan::BackTrackMethod.Value, { "All", "Last", "Prefer OnShot" });
 			WSlider("Amount of latency###BTLatency", &Vars::Backtrack::Latency.Value, 0, 800, "%d", ImGuiSliderFlags_AlwaysClamp); HelpMarker("This won't work on local servers");
+
+			SectionTitle("NoSpread");
+			{
+				WToggle("Hitscan", &Vars::NoSpread::Hitscan.Value); HelpMarker("Enables NoSpread for hitscan weapons, works better on servers with high uptime (100+ hrs)");
+				WToggle("Projectile", &Vars::NoSpread::Projectile.Value); HelpMarker("Enables NoSpread for projectile weapons (works independent of the sync state)");
+				WToggle("Indicator", &Vars::NoSpread::Indicator.Value); HelpMarker("Shows server uptime, mantissa step size and sync state");
+			}
 		} EndChild();
 
 		/* Hitscan */
@@ -426,12 +433,6 @@ void CMenu::MenuAimbot()
 				WSlider("Maximum distance", &Vars::Aimbot::Projectile::StrafePredictionMaxDistance.Value, 100.f, 10000.f); HelpMarker("Max distance to apply strafe prediction (lower is better)");
 			}
 
-			SectionTitle("NoSpread");
-			{
-				WToggle("Hitscan", &Vars::NoSpread::Hitscan.Value); HelpMarker("Enables NoSpread for hitscan weapons, works better on servers with high uptime (100+ hrs)");
-				WToggle("Projectile", &Vars::NoSpread::Projectile.Value); HelpMarker("Enables NoSpread for projectile weapons (works independent of the sync state)");
-				WToggle("Indicator", &Vars::NoSpread::Indicator.Value); HelpMarker("Shows server uptime, mantissa step size and sync state");
-			}
 		} EndChild();
 
 		/* End */

@@ -81,7 +81,7 @@ namespace Vars
 	CVar(Vignette, false, IS_VISUAL);
 	CVar(CloseOnUnfocus, false, IS_VISUAL);
 	CVar(MenuKey, 0);
-	CVar(DPI, 1.f) //unused
+	
 
 	SUBNAMESPACE_BEGIN(Style) // all of these are default values i apart from stuff specifically changed (i did not type all of this i gave chatgpt the imgui style struct and made this)
 	CVar(ItemWidth, 150.f, IS_VISUAL);
@@ -219,7 +219,7 @@ namespace Vars
 		CVar(AimBombs, false)
 		CVar(IgnoreOptions, 0b0000000) //disguised, fakelagging players, vaccinator, taunting, friends, deadringer,cloaked, invul
 		CVar(TickTolerance, 7)
-		CVar(BAimLethal, false) // This is in global cause i remmebered hunterman exists
+		CVar(BAimLethal, false) // This is in global cause i remembered hunterman exists
 		CVar(showHitboxes, false, IS_VISUAL) // original codenz
 		CVar(ClearPreviousHitbox, false, IS_VISUAL)
 		CVar(HitboxLifetime, 2, IS_VISUAL);
@@ -297,7 +297,7 @@ namespace Vars
 
 	NAMESPACE_BEGIN(NoSpread)
 		CVar(Hitscan, false)
-		CVar(Projectile, true)
+		CVar(Projectile, false)
 		CVar(Indicator, false, IS_VISUAL)
 	NAMESPACE_END(NoSpread);
 
@@ -1033,7 +1033,7 @@ namespace Vars
 		CVar(Cloak, Color_t(165, 177, 194, 255), IS_VISUAL);
 		CVar(Friend, Color_t(32, 191, 107, 255), IS_VISUAL); //light green
 		CVar(Local, Color_t(168, 255, 211, 255), IS_VISUAL);
-		CVar(Ignored, Color_t(192, 192, 192, 255), IS_VISUAL); //light grey
+		CVar(Ignored, Color_t(192, 192, 192, 255), IS_VISUAL); //light grey, idk why but the default color is still green
 		CVar(Rage, Color_t(255, 255, 0, 255), IS_VISUAL); //red
 		CVar(Cheater, Color_t(255, 0, 0, 255), IS_VISUAL); //red
 		CVar(Overheal, Color_t(84, 160, 255, 255), IS_VISUAL);
