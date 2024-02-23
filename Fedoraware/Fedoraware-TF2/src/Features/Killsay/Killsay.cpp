@@ -67,7 +67,7 @@ void CKillsay::FireGameEvent(FNV1A_t uNameHash, CGameEvent* pEvent)
 	{
 		m_vecLoadedKillsays.clear();
 
-		const std::string sCurrentPath = std::filesystem::current_path().string() + "\\FedFigs";
+		const std::string sCurrentPath = std::filesystem::current_path().string() + "\\Fedoraware";
 
 		if (!std::filesystem::exists(sCurrentPath))
 		{

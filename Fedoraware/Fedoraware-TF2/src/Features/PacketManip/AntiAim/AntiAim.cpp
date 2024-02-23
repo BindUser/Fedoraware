@@ -96,6 +96,10 @@ inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float fl
 	case 4: {
 		return iFake ? CalculateCustomRealPitch(Vars::AntiHack::AntiAim::CustomRealPitch.Value, iFake - 1) : Vars::AntiHack::AntiAim::CustomRealPitch.Value;
 	}
+	case 5: {
+        float flPitch = (I::GlobalVars->tickcount % 2) ? 89.f : -89.f;
+            return iFake ? CalculateCustomRealPitch(flPitch, iFake - 1) : flPitch;
+        }
 	}
 
 	return iFake ? -89.f + (89.f * (iFake - 1)) : flCurPitch;	//	just in case someone forgets to put in a real pitch.

@@ -251,7 +251,7 @@ void CConfigManager::LoadJson(const char* name, DragBox_t& val)
 
 CConfigManager::CConfigManager()
 {
-	ConfigPath = std::filesystem::current_path().string() + "\\FedFigs";
+	ConfigPath = std::filesystem::current_path().string() + "\\Fedoraware";
 	VisualsPath = ConfigPath + "\\Visuals";
 
 	// Create 'FedFigs' folder

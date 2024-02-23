@@ -106,34 +106,26 @@ bool CCritHack::NoRandomCrits(CBaseCombatWeapon* pWeapon)
 	//list of weapons that cant random crit, but dont have the attribute for it
 	switch (pWeapon->GetWeaponID())
 	{
-		//scout
-		case TF_WEAPON_JAR_MILK:
-		//soldier
-		case TF_WEAPON_BUFF_ITEM:
-		//pyro
-		case TF_WEAPON_JAR_GAS:
-		case TF_WEAPON_FLAME_BALL:
-		case TF_WEAPON_ROCKETPACK:
-		//demo
-		case TF_WEAPON_PARACHUTE: //also for soldier
-		//heavy
 		case TF_WEAPON_LUNCHBOX:
-		//engineer
-		case TF_WEAPON_PDA_ENGINEER_BUILD:
-		case TF_WEAPON_PDA_ENGINEER_DESTROY:
-		case TF_WEAPON_LASER_POINTER:
-		//medic
-		case TF_WEAPON_MEDIGUN:
-		//sniper
-		case TF_WEAPON_SNIPERRIFLE:
-		case TF_WEAPON_SNIPERRIFLE_CLASSIC:
-		case TF_WEAPON_SNIPERRIFLE_DECAP:
-		case TF_WEAPON_COMPOUND_BOW:
-		case TF_WEAPON_JAR:
-		//spy
-		case TF_WEAPON_KNIFE:
-		case TF_WEAPON_PDA_SPY_BUILD:
-		case TF_WEAPON_PDA_SPY:
+	    case TF_WEAPON_JAR_MILK:
+	    case TF_WEAPON_BUFF_ITEM:
+	    case TF_WEAPON_FLAME_BALL:
+	    case TF_WEAPON_JAR_GAS:
+	    case TF_WEAPON_ROCKETPACK:
+    	case TF_WEAPON_LASER_POINTER:
+	    case TF_WEAPON_MEDIGUN:
+      	case TF_WEAPON_SNIPERRIFLE:
+	    case TF_WEAPON_SNIPERRIFLE_DECAP:
+	    case TF_WEAPON_SNIPERRIFLE_CLASSIC:
+	    case TF_WEAPON_COMPOUND_BOW:
+     	case TF_WEAPON_JAR:
+    	case TF_WEAPON_KNIFE:
+    	case TF_WEAPON_PDA_SPY:
+     	case TF_WEAPON_PDA_SPY_BUILD:
+	    case TF_WEAPON_PDA:
+	    case TF_WEAPON_PDA_ENGINEER_BUILD:
+	    case TF_WEAPON_PDA_ENGINEER_DESTROY:
+	    case TF_WEAPON_BUILDER:
 			return true;
 			break;
 		default: return false; break;
@@ -425,7 +417,7 @@ void CCritHack::Draw()
 	// Are we currently forcing crits?
 	if (ShouldCrit() && NoRandomCrits(pWeapon) == false)
 	{
-		g_Draw.String(FONT, x, currentY += 15, { 70, 190, 50, 255 }, ALIGN_CENTERHORIZONTAL, "Crit key:Active");
+		g_Draw.String(FONT, x, currentY += 15, { 70, 190, 50, 255 }, ALIGN_CENTERHORIZONTAL, "Crit key :On ");
 	}
 	//crit banned check
 	if (CritTicks.size() == 0 && NoRandomCrits(pWeapon) == false)
