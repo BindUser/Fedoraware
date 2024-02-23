@@ -98,7 +98,7 @@ inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float fl
 	}
 	case 5: {
         float flPitch = (I::GlobalVars->tickcount % 2) ? 89.f : -89.f;
-            return iFake ? CalculateCustomRealPitch(flPitch, iFake - 1) : flPitch;
+        return iFake ? CalculateCustomRealPitch(flPitch, iFake - 1) : flPitch;
         }
 	}
 
