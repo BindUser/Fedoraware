@@ -107,6 +107,9 @@ namespace S
 	MAKE_SIGNATURE(NotificationQueue_Add, CLIENT_DLL, "55 8B EC 8B 0D ? ? ? ? 56 57 8B 01 8B 40 68 FF D0 8B 75 08 84 C0 75 09 80 BE ? ? ? ? ? 75 29", 0x0);
 	MAKE_SIGNATURE(S_StartDynamicSound, ENGINE_DLL, "55 8B EC 8B 0D ? ? ? ? 81 EC ? ? ? ? 85 C9", 0x0);
 	MAKE_SIGNATURE(UTIL_TraceLine, CLIENT_DLL, "53 8B DC 83 EC ? 83 E4 ? 83 C4 ? 55 8B 6B ? 89 6C 24 ? 8B EC 83 EC ? 8D 4D ? 56 FF 73 ? FF 73 ? E8 ? ? ? ? 6A", 0x0);
+	MAKE_SIGNATURE(CVoiceStatus_IsPlayerBlocked, CLIENT_DLL, "55 8B EC 81 EC ? ? ? ? 8D 95 ? ? ? ? 56 8B F1 8B 0D ? ? ? ? 52 FF 75 ? 8B 01 8B 40 ? FF D0 84 C0 75 ? 5E", 0x0);
+	MAKE_SIGNATURE(VGui_MenuBuilder_AddMenuItem, CLIENT_DLL, "55 8B EC 56 8B F1 57 8B 7D ? 8B 46 ? 85 C0 74 ? 50 57 E8 ? ? ? ? 83 C4 ? 85 C0 74 ? 8B 0E 8B 01 FF 90 ? ? ? ? 8B 0E 6A ? FF 76 ? 89 7E ? FF 75 ? 8B 01 FF 75 ? FF 90 ? ? ? ? 8B 36 8B C8 3B 8E ? ? ? ? 73 ? 3B 8E ? ? ? ? 7F ? 8B 86 ? ? ? ? 8D 14 49 39 4C 90 ? 75 ? 39 4C 90 ? 75 ? 8B 04 90 5F 5E 5D C2 ? ? 5F 33 C0 5E 5D C2 ? ? CC CC CC CC CC 55 8B EC 56", 0x0);
+	MAKE_SIGNATURE(CTFClientScoreBoardDialog_OnCommand, CLIENT_DLL, "55 8B EC 83 EC ? 56 57 8B 7D ? 8B F1 68 ? ? ? ? 57 E8 ? ? ? ? 83 C4 ? 85 C0 74", 0x0);
 	MAKE_SIGNATURE(ViewRender_PerformScreenSpaceEffects, CLIENT_DLL, "55 8B EC 83 EC ? 8B 0D ? ? ? ? 53 56 57 33 F6 33 FF 89 75 ? 89 7D ? 8B 01 85 C0 74 ? 68 ? ? ? ? 68 ? ? ? ? 68 ? ? ? ? 68 ? ? ? ? 68 ? ? ? ? 57 57 57 57 8D 4D ? 51 50 8B 40 ? FF D0 8B 7D ? 83 C4 ? 8B 75 ? 8B 0D ? ? ? ? 8B 19 8B 0D", 0x0);
 	MAKE_SIGNATURE(CMaterial_Uncache, MATSYSTEM_DLL, "55 8B EC 81 EC ? ? ? ? 56 8B F1 8B 0D ? ? ? ? 57", 0x0);
 	MAKE_SIGNATURE(CTFMatchSummary_OnTick, CLIENT_DLL, "55 8B EC 83 EC ? 53 57 8B F9 E8 ? ? ? ? E8", 0x0);

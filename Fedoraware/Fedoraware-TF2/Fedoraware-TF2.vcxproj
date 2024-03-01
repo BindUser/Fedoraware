@@ -204,6 +204,7 @@
     <ClCompile Include="src\Features\Menu\MaterialEditor\MaterialEditor.cpp" />
     <ClCompile Include="src\Features\Menu\Menu.cpp" />
     <ClCompile Include="src\Features\Menu\Playerlist\Playerlist.cpp" />
+    <ClCompile Include="src\Features\Menu\Playerlist\PlayerUtils.cpp" />
     <ClCompile Include="src\Features\Menu\Pong\Pong.cpp" />
     <ClCompile Include="src\Features\Menu\SpectatorList\SpectatorList.cpp" />
     <ClCompile Include="src\Features\Misc\Misc.cpp" />
@@ -312,6 +313,7 @@
     <ClCompile Include="src\Hooks\Detours\S_StartDynamicSound.cpp" />
     <ClCompile Include="src\Hooks\Detours\UniformRandomStream_RandInt.cpp" />
     <ClCompile Include="src\Hooks\Detours\UTIL_TraceLine.cpp" />
+    <ClCompile Include="src\Hooks\Detours\VGui_MenuBuilder_AddMenuItem.cpp" />
     <ClCompile Include="src\Hooks\Detours\ViewRender_LevelInit.cpp" />
     <ClCompile Include="src\Hooks\Detours\ViewRender_LevelShutdown.cpp" />
     <ClCompile Include="src\Hooks\Detours\ViewRender_PerformScreenSpaceEffects.cpp" />
@@ -405,6 +407,7 @@
     <ClInclude Include="src\Features\Menu\MaterialEditor\MaterialEditor.h" />
     <ClInclude Include="src\Features\Menu\Menu.h" />
     <ClInclude Include="src\Features\Menu\Playerlist\Playerlist.h" />
+    <ClInclude Include="src\Features\Menu\Playerlist\PlayerUtils.h" />
     <ClInclude Include="src\Features\Menu\SpectatorList\SpectatorList.h" />
     <ClInclude Include="src\Features\Misc\Misc.h" />
     <ClInclude Include="src\Features\Chams\Chams.h" />

@@ -721,6 +721,7 @@ namespace Vars
 	CVar(OnScreenPing, DragBox_t(), IS_VISUAL);
 	CVar(ParticleName, std::string("merasmus_zap_beam01"), IS_VISUAL);
 	CVar(VMOffsets, Vec3(), IS_VISUAL);
+	CVar(ScoreboardPlayerlist, true)
 
 	SUBNAMESPACE_BEGIN(Beans)
 		CVar(Active, false, IS_VISUAL)
