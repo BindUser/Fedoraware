@@ -1,7 +1,7 @@
 #include "PlayerUtils.h"
 #include "../../Vars.h"
 #include "../../Colour.h"
-#include "../../Logs/Logs.h"
+#include "../../Nigger/Nigger.h"
 
 //this is just the same as playerlist, i just need my shit to be functional
 //hope this doesnt cause more problems :)

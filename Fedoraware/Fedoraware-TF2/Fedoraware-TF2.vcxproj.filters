@@ -21,7 +21,7 @@
     <ClCompile Include="src\Features\Auto\AutoDetonate\AutoDetonate.cpp" />
     <ClCompile Include="src\Features\Auto\AutoUber\AutoUber.cpp" />
     <ClCompile Include="src\Features\ChatInfo\ChatInfo.cpp" />
-    <ClCompile Include="src\Features\Logs\Logs.cpp" />
+    <ClCompile Include="src\Features\Nigger/Nigger.cpp" />
     <ClCompile Include="src\Features\Chams\DMEChams.cpp" />
     <ClCompile Include="src\Features\Discord\Discord.cpp" />
     <ClCompile Include="src\Features\ESP\ESP.cpp" />
@@ -213,7 +213,7 @@
     <ClInclude Include="src\Features\Auto\AutoDetonate\AutoDetonate.h" />
     <ClInclude Include="src\Features\Auto\AutoUber\AutoUber.h" />
     <ClInclude Include="src\Features\ChatInfo\ChatInfo.h" />
-    <ClCompile Include="src\Features\Logs\Logs.h" />
+    <ClCompile Include="src\Features\Nigger/Nigger.h" />
     <ClInclude Include="src\Features\Chams\DMEChams.h" />
     <ClInclude Include="src\Features\Discord\Discord.h" />
     <ClInclude Include="src\Features\ESP\ESP.h" />
