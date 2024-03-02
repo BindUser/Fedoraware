@@ -29,8 +29,6 @@ bool CPlayerlistUtils::GetTag(std::string sTag, PriorityLabel* plTag)
 	return false;
 }
 
-
-
 void CPlayerlistUtils::AddTag(uint32_t friendsID, std::string sTag, bool bSave, std::string sName)
 {
 	if (!friendsID)
@@ -241,8 +239,6 @@ bool CPlayerlistUtils::IsFriend(int iIndex)
 		return Utils::IsSteamFriend2(friendsID);
 	return false;
 }
-
-
 
 void CPlayerlistUtils::UpdatePlayers()
 {
