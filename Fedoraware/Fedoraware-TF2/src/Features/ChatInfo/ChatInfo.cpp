@@ -166,7 +166,7 @@ void CChatInfo::Event(CGameEvent* pEvent, const FNV1A_t uNameHash)
 	}
 }
 
-// User Message info
+// Vote Logger
 void CChatInfo::UserMessage(UserMessageType type, bf_read& msgData)
 {
 	switch (type)

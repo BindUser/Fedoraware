@@ -1,6 +1,6 @@
 #include "PlayerUtils.h"
 #include "../../Vars.h"
-#include "../../Color.h"
+#include "../../Colour.h"
 #include "../../Logs/Logs.h"
 
 //this is just the same as playerlist, i just need my shit to be functional
@@ -133,7 +133,7 @@ int CPlayerlistUtils::GetPriority(uint32_t friendsID)
 		if (F::PlayerUtils.GetTag(sTag, &plTag) && !plTag.Label)
 			vPriorities.push_back(plTag.Priority);
 	}
-	if (Utils::IsSteamFriend(friendsID))
+	if (Utils::IsSteamFriend2(friendsID))
 	{
 		auto& plTag = vTags["Friend"];
 		if (!plTag.Label)
@@ -175,7 +175,7 @@ bool CPlayerlistUtils::GetSignificantTag(uint32_t friendsID, std::string* sTag, 
 			if (F::PlayerUtils.GetTag(_sTag, &_plTag) && !_plTag.Label)
 				vLabels.push_back({ _sTag, _plTag });
 		}
-		if (Utils::IsSteamFriend(friendsID))
+		if (Utils::IsSteamFriend2(friendsID))
 		{
 			auto& _plTag = vTags["Friend"];
 			if (!_plTag.Label)
@@ -190,7 +190,7 @@ bool CPlayerlistUtils::GetSignificantTag(uint32_t friendsID, std::string* sTag, 
 			if (F::PlayerUtils.GetTag(_sTag, &_plTag) && _plTag.Label)
 				vLabels.push_back({ _sTag, _plTag });
 		}
-		if (Utils::IsSteamFriend(friendsID))
+		if (Utils::IsSteamFriend2(friendsID))
 		{
 			auto& _plTag = vTags["Friend"];
 			if (_plTag.Label)
@@ -238,7 +238,7 @@ bool CPlayerlistUtils::IsIgnored(int iIndex)
 bool CPlayerlistUtils::IsFriend(int iIndex)
 {
 	if (const uint32_t friendsID = GetFriendsID(iIndex))
-		return Utils::IsSteamFriend(friendsID);
+		return Utils::IsSteamFriend2(friendsID);
 	return false;
 }
 
@@ -266,7 +266,7 @@ void CPlayerlistUtils::UpdatePlayers()
 			if (I::EngineClient->GetPlayerInfo(i, &pi))
 			{
 				bFake = pi.fakeplayer;
-				bFriend = Utils::IsSteamFriend(pi.friendsID);
+				bFriend = Utils::IsSteamFriend2(pi.friendsID);
 			}
 
 			vPlayerCache.push_back({

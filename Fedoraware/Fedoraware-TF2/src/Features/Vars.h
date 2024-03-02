@@ -1076,5 +1076,12 @@ namespace Vars
 	CVar(Logging, false, IS_VISUAL);
 
 	NAMESPACE_END(Debug);
+
+	NAMESPACE_BEGIN(Logging)
+	    CVar(Logs, 0b0011)
+	    SUBNAMESPACE_BEGIN(Tags)
+	    CVar(LogTo, 0b0001)
+	    SUBNAMESPACE_END(Tags)
+	NAMESPACE_END(Logging)
 }
 

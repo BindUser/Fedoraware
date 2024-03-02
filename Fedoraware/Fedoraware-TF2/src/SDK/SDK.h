@@ -243,6 +243,19 @@ namespace Utils
 		return false;
 	}
 
+    // lol this is very stupid but i dont want to fuck shit up and change other stuff so yeah this shall do
+	__inline bool IsSteamFriend2(uint32_t friendsID)
+	{
+		if (friendsID)
+		{
+			const CSteamID steamID{ friendsID, 1, k_EUniversePublic, k_EAccountTypeIndividual };
+			return g_SteamInterfaces.Friends->HasFriend(steamID, k_EFriendFlagImmediate);
+		}
+
+		return false;
+	}
+
+
 	__inline const char* GetClassByIndex(const int nClass)
 	{
 		static const char* szClasses[] = { "unknown", "scout", "sniper", "soldier", "demoman",
