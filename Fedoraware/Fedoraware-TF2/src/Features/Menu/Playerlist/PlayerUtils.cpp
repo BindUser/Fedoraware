@@ -1,7 +1,6 @@
 #include "PlayerUtils.h"
 #include "../../Vars.h"
 #include "../../Colour.h"
-#include "../../Nigger/Nigger.h"
 
 //this is just the same as playerlist, i just need my shit to be functional
 //hope this doesnt cause more problems :)
@@ -29,6 +28,7 @@ bool CPlayerlistUtils::GetTag(std::string sTag, PriorityLabel* plTag)
 	return false;
 }
 
+/*
 void CPlayerlistUtils::AddTag(uint32_t friendsID, std::string sTag, bool bSave, std::string sName)
 {
 	if (!friendsID)
@@ -46,12 +46,15 @@ void CPlayerlistUtils::AddTag(uint32_t friendsID, std::string sTag, bool bSave, 
 		}
 	}
 }
+*/
+
 void CPlayerlistUtils::AddTag(int iIndex, std::string sTag, bool bSave, std::string sName)
 {
 	if (const uint32_t friendsID = GetFriendsID(iIndex))
 		AddTag(friendsID, sTag, bSave, sName);
 }
 
+/*
 void CPlayerlistUtils::RemoveTag(uint32_t friendsID, std::string sTag, bool bSave, std::string sName)
 {
 	if (!friendsID)
@@ -74,6 +77,8 @@ void CPlayerlistUtils::RemoveTag(uint32_t friendsID, std::string sTag, bool bSav
 		}
 	}
 }
+*/
+
 void CPlayerlistUtils::RemoveTag(int iIndex, std::string sTag, bool bSave, std::string sName)
 {
 	if (const uint32_t friendsID = GetFriendsID(iIndex))
