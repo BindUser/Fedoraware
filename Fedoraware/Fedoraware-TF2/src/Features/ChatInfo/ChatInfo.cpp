@@ -248,5 +248,4 @@ void CChatInfo::TagsChanged(std::string name, std::string action, std::string co
 
 	std::string string = std::format("{} tag {} {} {}", (action), (tag), (action == "Added" ? "to" : "from"), (name));
 	std::string cstring = std::format("{} tag {}{}\x1 {} {}{}", (action), (color), (tag), (action == "Added" ? "to" : "from"), (yellow), (name));
-	OutputInfo(Vars::Logging::Tags::LogTo.Value, "Tags", string, cstring);
 }
