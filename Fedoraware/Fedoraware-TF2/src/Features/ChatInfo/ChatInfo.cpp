@@ -3,6 +3,7 @@
 #include "../Vars.h"
 #include "../Misc/Notifications/Notifications.h"
 #include "../../Features/Visuals/Visuals.h"
+#include "../Menu/Playerlist/PlayerUtils.h"
 
 int attackStringW;
 int attackStringH;
@@ -238,4 +239,14 @@ void CChatInfo::UserMessage(UserMessageType type, bf_read& msgData)
 			break;
 		}
 	}
+}
+
+void CChatInfo::TagsChanged(std::string name, std::string action, std::string color, std::string tag)
+{
+	if (!(Vars::Logging::Logs.Value & 1 << 5))
+		return;
+
+	std::string string = std::format("{} tag {} {} {}", (action), (tag), (action == "Added" ? "to" : "from"), (name));
+	std::string cstring = std::format("{} tag {}{}\x1 {} {}{}", (action), (color), (tag), (action == "Added" ? "to" : "from"), (yellow), (name));
+	OutputInfo(Vars::Logging::Tags::LogTo.Value, "Tags", string, cstring);
 }

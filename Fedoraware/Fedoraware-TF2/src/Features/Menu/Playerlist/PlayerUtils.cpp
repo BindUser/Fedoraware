@@ -1,6 +1,7 @@
 #include "PlayerUtils.h"
 #include "../../Vars.h"
 #include "../../Colour.h"
+#include "../../ChatInfo/ChatInfo.h"
 
 //this is just the same as playerlist, i just need my shit to be functional
 //hope this doesnt cause more problems :)
@@ -28,7 +29,6 @@ bool CPlayerlistUtils::GetTag(std::string sTag, PriorityLabel* plTag)
 	return false;
 }
 
-/*
 void CPlayerlistUtils::AddTag(uint32_t friendsID, std::string sTag, bool bSave, std::string sName)
 {
 	if (!friendsID)
@@ -42,11 +42,10 @@ void CPlayerlistUtils::AddTag(uint32_t friendsID, std::string sTag, bool bSave, 
 		{
 			PriorityLabel plTag;
 			if (GetTag(sTag, &plTag))
-				F::Logs.TagsChanged(sName, "Added", plTag.Color.to_hex_alpha(), sTag);
+				F::ChatInfo.TagsChanged(sName, "Added", plTag.Color.to_hex_alpha(), sTag);
 		}
 	}
 }
-*/
 
 void CPlayerlistUtils::AddTag(int iIndex, std::string sTag, bool bSave, std::string sName)
 {
@@ -54,7 +53,6 @@ void CPlayerlistUtils::AddTag(int iIndex, std::string sTag, bool bSave, std::str
 		AddTag(friendsID, sTag, bSave, sName);
 }
 
-/*
 void CPlayerlistUtils::RemoveTag(uint32_t friendsID, std::string sTag, bool bSave, std::string sName)
 {
 	if (!friendsID)
@@ -71,13 +69,12 @@ void CPlayerlistUtils::RemoveTag(uint32_t friendsID, std::string sTag, bool bSav
 			{
 				PriorityLabel plTag;
 				if (GetTag(sTag, &plTag))
-					F::Logs.TagsChanged(sName, "Removed", plTag.Color.to_hex_alpha(), sTag);
+					F::ChatInfo.TagsChanged(sName, "Removed", plTag.Color.to_hex_alpha(), sTag);
 			}
 			break;
 		}
 	}
 }
-*/
 
 void CPlayerlistUtils::RemoveTag(int iIndex, std::string sTag, bool bSave, std::string sName)
 {
