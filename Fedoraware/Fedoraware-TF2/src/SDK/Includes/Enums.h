@@ -14,6 +14,15 @@ enum
 	PARTITION_CLIENT_NON_STATIC_EDICTS = (1 << 7),		// everything except the static props
 };
 
+enum MM_PlayerConnectionState_t
+{
+	MM_DISCONNECTED = 0,
+	MM_CONNECTED,
+	MM_CONNECTING, // the server knows that this player is coming
+	MM_LOADING, // loading into the server
+	MM_WAITING_FOR_PLAYER
+};
+
 enum EStereoEye
 {
 	STEREO_EYE_MONO = 0,

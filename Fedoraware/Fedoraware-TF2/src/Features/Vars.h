@@ -721,7 +721,8 @@ namespace Vars
 	CVar(OnScreenPing, DragBox_t(), IS_VISUAL);
 	CVar(ParticleName, std::string("merasmus_zap_beam01"), IS_VISUAL);
 	CVar(VMOffsets, Vec3(), IS_VISUAL);
-	CVar(ScoreboardPlayerlist, true)
+	CVar(ScoreboardPlayerlist, true);
+	CVar(ScoreboardColors, true, IS_VISUAL)
 
 	SUBNAMESPACE_BEGIN(Beans)
 		CVar(Active, false, IS_VISUAL)
@@ -790,7 +791,7 @@ namespace Vars
 	CVar(TauntSpinKey, 0);
 	CVar(TauntSpinSpeed, 5.f);
 	CVar(TauntFollowsCamera, false);
-	CVar(BypassPure, true);
+	CVar(BypassPure, true, IS_VISUAL);
 	CVar(NoisemakerSpam, false);
 	CVar(DisableInterpolation, true);
 	CVar(FixInputDelay, false);
@@ -1032,19 +1033,20 @@ namespace Vars
 		CVar(Target, Color_t(240, 147, 43, 255), IS_VISUAL);
 		CVar(Invuln, Color_t(120, 111, 166, 255), IS_VISUAL);
 		CVar(Cloak, Color_t(165, 177, 194, 255), IS_VISUAL);
-		CVar(Friend, Color_t(32, 191, 107, 255), IS_VISUAL); //light green
+		CVar(Friend, Color_t(32, 191, 107, 255), IS_VISUAL);
 		CVar(Local, Color_t(168, 255, 211, 255), IS_VISUAL);
 		CVar(Ignored, Color_t(192, 192, 192, 255), IS_VISUAL); //light grey, idk why but the default color is still green
-		CVar(Rage, Color_t(255, 255, 0, 255), IS_VISUAL); //red
-		CVar(Cheater, Color_t(255, 0, 0, 255), IS_VISUAL); //red
+		CVar(Rage, Color_t(255, 255, 0, 255), IS_VISUAL);
+		CVar(Cheater, Color_t(255, 0, 0, 255), IS_VISUAL);
 		CVar(Overheal, Color_t(84, 160, 255, 255), IS_VISUAL);
 		CVar(Health, Color_t(0, 230, 64, 255), IS_VISUAL);
 		CVar(Ammo, Color_t(191, 191, 191, 255), IS_VISUAL);
 		CVar(UberColor, Color_t(224, 86, 253, 255), IS_VISUAL);
 		CVar(TeamRed, Color_t(255, 100, 87, 255), IS_VISUAL);
 		CVar(TeamBlu, Color_t(30, 144, 255, 255), IS_VISUAL);
+		CVar(Relative, true, IS_VISUAL) //teammates and enemy
 		CVar(Enemy, Color_t(255, 100, 87, 255), IS_VISUAL);
-		CVar(Friendly, Color_t(30, 144, 255, 255), IS_VISUAL);
+		CVar(Friendly, Color_t(30, 144, 255, 255), IS_VISUAL); // Team colour
 		CVar(WorldModulation, Color_t(255, 255, 255, 255), IS_VISUAL);
 		CVar(SkyModulation, Color_t(255, 255, 255, 255), IS_VISUAL);
 		CVar(StaticPropModulation, Color_t(255, 255, 255, 255), IS_VISUAL);

@@ -48,11 +48,7 @@ public:
 	bool IsIgnored(int iIndex);
 	bool IsFriend(int iIndex);
 
-	void UpdatePlayers();
 	std::mutex mutex;
-
-	const std::vector<const char*> vListPitch = { "None", "Up", "Down", "Zero", "Auto" };
-	const std::vector<const char*> vListYaw = { "None", "Forward", "Backward", "Left", "Right", "Invert", "Edge", "Auto" };
 
 	std::unordered_map<std::string, PriorityLabel> vTags = {
 		{ "Default", { { 200, 200, 200, 255 }, 0, false, false, true } },

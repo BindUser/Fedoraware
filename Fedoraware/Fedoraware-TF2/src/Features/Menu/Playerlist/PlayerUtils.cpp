@@ -4,7 +4,7 @@
 #include "../../ChatInfo/ChatInfo.h"
 
 //this is just the same as playerlist, i just need my shit to be functional
-//hope this doesnt cause more problems :)
+//fuck me this doesnt work
 
 uint32_t GetFriendsID(int iIndex)
 {
@@ -114,8 +114,6 @@ bool CPlayerlistUtils::HasTag(int iIndex, std::string sTag)
 		return HasTag(friendsID, sTag);
 	return false;
 }
-
-
 
 int CPlayerlistUtils::GetPriority(uint32_t friendsID)
 {
@@ -240,46 +238,6 @@ bool CPlayerlistUtils::IsFriend(int iIndex)
 	if (const uint32_t friendsID = GetFriendsID(iIndex))
 		return Utils::IsSteamFriend2(friendsID);
 	return false;
-}
-
-void CPlayerlistUtils::UpdatePlayers()
-{
-	static Timer updateTimer{};
-	if (updateTimer.Run(1000))
-	{
-		std::lock_guard lock(mutex);
-		vPlayerCache.clear();
-
-		const auto& pr = g_EntityCache.GetPR();
-		if (!pr)
-			return;
-
-		for (int i = 1; i <= I::GlobalVars->maxclients; i++)
-		{
-			if (!pr->GetValid(i) || !pr->GetConnected(i))
-				continue;
-
-			bool bFake = true, bFriend = false;
-			PlayerInfo_t pi{};
-			if (I::EngineClient->GetPlayerInfo(i, &pi))
-			{
-				bFake = pi.fakeplayer;
-				bFriend = Utils::IsSteamFriend2(pi.friendsID);
-			}
-
-			vPlayerCache.push_back({
-				pr->GetPlayerName(i),
-				pr->GetAccountID(i),
-				pr->GetUserID(i),
-				pr->GetTeam(i),
-				pr->GetClass(i),
-				pr->IsAlive(i),
-				i == I::EngineClient->GetLocalPlayer(),
-				bFriend,
-				bFake
-			});
-		}
-	}
 }
 
 
