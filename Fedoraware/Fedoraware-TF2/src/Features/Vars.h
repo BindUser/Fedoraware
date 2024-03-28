@@ -1044,7 +1044,6 @@ namespace Vars
 		CVar(UberColor, Color_t(224, 86, 253, 255), IS_VISUAL);
 		CVar(TeamRed, Color_t(255, 100, 87, 255), IS_VISUAL);
 		CVar(TeamBlu, Color_t(30, 144, 255, 255), IS_VISUAL);
-		CVar(Relative, true, IS_VISUAL) //teammates and enemy
 		CVar(Enemy, Color_t(255, 100, 87, 255), IS_VISUAL);
 		CVar(Friendly, Color_t(30, 144, 255, 255), IS_VISUAL); // Team colour
 		CVar(WorldModulation, Color_t(255, 255, 255, 255), IS_VISUAL);

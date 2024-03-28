@@ -83,7 +83,8 @@ inline float CAntiAim::CalculateCustomRealPitch(float WishPitch, bool FakeDown) 
 //	4 - Custom
 //	3 and 4 not available for iFake
 inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float flCurPitch) {
-	switch (iReal) {
+	switch (iReal) 
+	{
 	case 1: {
 		return iFake ? CalculateCustomRealPitch(-89.f, iFake - 1) : -89.f;
 	}
@@ -96,13 +97,19 @@ inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float fl
 	case 4: {
 		return iFake ? CalculateCustomRealPitch(Vars::AntiHack::AntiAim::CustomRealPitch.Value, iFake - 1) : Vars::AntiHack::AntiAim::CustomRealPitch.Value;
 	}
+	/*
+	this is unused because it doesnt work with fake pitch(i just dont know how to get it work) 
+	and i just found out that jitter pitch is ass via:
+	https://pastebin.com/L4itjSSY
 	case 5: {
 		float flPitch = 0.f;
         return iFake ? CalculateCustomRealPitch(((I::GlobalVars->tickcount % 2) ? 89.f : -89.f), iFake - 1) : flPitch;
         } 
 	}
+	*/
 
 	return iFake ? -89.f + (89.f * (iFake - 1)) : flCurPitch;	//	just in case someone forgets to put in a real pitch.
+    }
 }
 
 //	Get Yaw

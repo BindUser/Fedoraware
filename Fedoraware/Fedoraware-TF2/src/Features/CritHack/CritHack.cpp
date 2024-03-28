@@ -412,7 +412,7 @@ void CCritHack::Draw()
 	//Are we currently crit boosted?
 	if (pLocal->IsCritBoosted())
 	{
-		g_Draw.String(FONT, x, currentY, { 100, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "Crit Boosted");
+		g_Draw.String(FONT, x, currentY +=15, { 100, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "Crit Boosted");
 	}
 	// Are we currently forcing crits?
 	if (ShouldCrit() && NoRandomCrits(pWeapon) == false)
