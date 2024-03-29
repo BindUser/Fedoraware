@@ -97,7 +97,6 @@
     <ClCompile Include="src\Hooks\Detours\C_TFRagdoll_CreateTFRagdoll.cpp" />
     <ClCompile Include="src\Hooks\Detours\CSoundEmitterSystem_EmitSound.cpp" />
     <ClCompile Include="src\Hooks\Detours\C_TFWeaponBase_CalcIsAttackCritical.cpp" />
-    <ClCompile Include="src\Hooks\Detours\C_PlayerResource_GetTeamColor.cpp" />
     <ClCompile Include="src\Hooks\Detours\DoEnginePostProcessing.cpp" />
     <ClCompile Include="src\Hooks\Detours\EngineClient_ClientCmd_Unrestricted.cpp" />
     <ClCompile Include="src\Hooks\Detours\EngineClient_IsPlayingTimeDemo.cpp" />
