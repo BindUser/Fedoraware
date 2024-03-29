@@ -105,11 +105,10 @@ inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float fl
 		float flPitch = 0.f;
         return iFake ? CalculateCustomRealPitch(((I::GlobalVars->tickcount % 2) ? 89.f : -89.f), iFake - 1) : flPitch;
         } 
-	}
 	*/
+	}
 
 	return iFake ? -89.f + (89.f * (iFake - 1)) : flCurPitch;	//	just in case someone forgets to put in a real pitch.
-    }
 }
 
 //	Get Yaw
