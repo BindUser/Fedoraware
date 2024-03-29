@@ -60,7 +60,7 @@ MAKE_HOOK(C_PlayerResource_GetTeamColor, S::CPlayerResource_GetTeamColor(), unsi
 {
     if (index < 0 || index > I::EngineClient->GetMaxClients() || !iCurPlayer || !Vars::Visuals::ScoreboardColors.Value)
     {
-    const Color_t cReturn = GetScoreboardColor(iCurPlayer, Vars::Colours::Relative.Value);
+    const Color_t cReturn = GetScoreboardColor(iCurPlayer,Vars::ESP::Main::EnableTeamEnemyColors.Value);
     if (!cReturn.a)
         return Hook.Original<FN>()(ecx, edx, index);
 

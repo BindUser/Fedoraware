@@ -548,8 +548,8 @@ void CMenu::MenuVisuals()
 					WToggle("ESP###EnableESP", &Vars::ESP::Main::Active.Value); HelpMarker("Global ESP master switch");
 					InputKeybind("ESP Key", Vars::ESP::Main::ESPKey, true, false, "None"); HelpMarker("The key to toggle ESP");
 					WToggle("Outlined health bars", &Vars::ESP::Main::Outlinedbar.Value); HelpMarker("Will outline the health bars");
-					WToggle("Relative colours", &Vars::Colours::Relative.Value); HelpMarker("Chooses colors relative to your team (team/enemy)");
-					if ( Vars::Colours::Relative.Value)
+					WToggle("Relative colours", &Vars::ESP::Main::EnableTeamEnemyColors.Value); HelpMarker("Chooses colors relative to your team (team/enemy)");
+					if (Vars::ESP::Main::EnableTeamEnemyColors.Value)
 					{
 						ColorPickerL("Enemy color", Vars::Colours::Enemy.Value);
 						ColorPickerL("Team color", Vars::Colours::Friendly.Value, 1);

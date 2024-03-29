@@ -1046,7 +1046,6 @@ namespace Vars
 		CVar(TeamBlu, Color_t(30, 144, 255, 255), IS_VISUAL);
 		CVar(Enemy, Color_t(255, 100, 87, 255), IS_VISUAL);
 		CVar(Friendly, Color_t(30, 144, 255, 255), IS_VISUAL); // Team colour
-		CVar(Relative, false, IS_VISUAL)
 		CVar(WorldModulation, Color_t(255, 255, 255, 255), IS_VISUAL);
 		CVar(SkyModulation, Color_t(255, 255, 255, 255), IS_VISUAL);
 		CVar(StaticPropModulation, Color_t(255, 255, 255, 255), IS_VISUAL);
