@@ -68,6 +68,7 @@ namespace G
 	inline bool SilentTime = false;
 	inline Vec3 AimPos = {};
 	inline VMatrix WorldToProjection = {};
+	inline float flAimbotFOV = 0.0f;
 
 	/* Angles */
 	inline Vec3 ViewAngles = {};

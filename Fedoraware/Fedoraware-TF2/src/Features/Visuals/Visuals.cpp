@@ -996,10 +996,10 @@ void CVisuals::DrawProjectileTracer(CBaseEntity* pLocal, const Vec3& position)
 void CVisuals::DrawAimbotFOV(CBaseEntity* pLocal)
 {
 	//Current Active Aimbot FOV
-	if (Vars::Visuals::AimFOVAlpha.Value && Vars::Aimbot::Global::AimFOV.Value)
+	if (Vars::Visuals::AimFOVAlpha.Value && G::flAimbotFOV)
 	{
 		const float flFOV = static_cast<float>(Vars::Visuals::FieldOfView.Value);
-		const float flR = tanf(DEG2RAD(Vars::Aimbot::Global::AimFOV.Value) / 2.0f)
+		const float flR = tanf(DEG2RAD(G::flAimbotFOV) / 2.0f)
 			/ tanf(
 				DEG2RAD((pLocal->IsScoped() && !Vars::Visuals::RemoveZoom.Value) ? 30.0f : flFOV) /
 				2.0f) * g_ScreenSize.w;

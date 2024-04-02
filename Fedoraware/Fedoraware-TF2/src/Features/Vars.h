@@ -227,7 +227,7 @@ namespace Vars
 
 	SUBNAMESPACE_BEGIN(Hitscan)
 		CVar(SortMethod, 0) //0 - FOV,		1 - Distance
-		CVar(AimFOV, 15.0f)
+		CVar(HitscanAimFOV, 15.0f)
 		CVar(BackTrackMethod, 0)
 		CVar(RespectFOV, true)
 		CVar(AdaptiveMultiPoint, true)
@@ -256,7 +256,7 @@ namespace Vars
 
 	SUBNAMESPACE_BEGIN(Projectile)
 		CVar(SortMethod, 0) //0 - FOV,		1 - Distance
-		CVar(AimFOV, 15.f)
+		CVar(ProjectileAimFOV, 30.f)
 		CVar(RespectFOV, true)
 		CVar(AimMethod, 1) //0 - Normal,	1 - Smooth, 2 - Silent
 		CVar(AimPosition, 3) // 0/head, 1/body, 2/feet, 3/auto
@@ -284,6 +284,7 @@ namespace Vars
 
 	SUBNAMESPACE_BEGIN(Melee)
 		CVar(SortMethod, 1) //0 - FOV,		1 - Distance
+		CVar(MeleeAimFOV, 90.0f)
 		CVar(RespectFOV, false)
 		CVar(RequireBind, true)
 		CVar(AimMethod, 2) //0 - Normal,	1 - Smooth, 2 - Silent

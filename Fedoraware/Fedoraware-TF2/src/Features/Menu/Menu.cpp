@@ -268,7 +268,6 @@ void CMenu::MenuAimbot()
 			WToggle("Aimbot", &Vars::Aimbot::Global::Active.Value); HelpMarker("Aimbot master switch");
 			InputKeybind("Aimbot key", Vars::Aimbot::Global::AimKey); HelpMarker("The key to enable aimbot");
 			ColorPickerL("Target", Vars::Colours::Target.Value);
-		  //WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 		    ColorPickerL("Aimbot FOV circle", Vars::Colours::FOVCircle.Value);
 			WToggle("Autoshoot###AimbotAutoshoot", &Vars::Aimbot::Global::AutoShoot.Value); HelpMarker("Automatically shoot when a target is found");
 			MultiCombo({ "Players", "Buildings", "Stickies", "NPCs", "Bombs" }, { &Vars::Aimbot::Global::AimPlayers.Value, &Vars::Aimbot::Global::AimBuildings.Value, &Vars::Aimbot::Global::AimStickies.Value, &Vars::Aimbot::Global::AimNPC.Value, &Vars::Aimbot::Global::AimBombs.Value }, "Aim targets");
@@ -315,7 +314,7 @@ void CMenu::MenuAimbot()
 		if (TableColumnChild("AimbotCol2"))
 		{
 			SectionTitle("Hitscan");
-			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Hitscan::HitscanAimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
 			WCombo("Sort method###HitscanSortMethod", &Vars::Aimbot::Hitscan::SortMethod.Value, { "FOV", "Distance" }); HelpMarker("Which method the aimbot uses to decide which target to aim at");
 			if (Vars::Aimbot::Hitscan::SortMethod.Value == 1)
 			{
@@ -368,6 +367,7 @@ void CMenu::MenuAimbot()
 
 			SectionTitle("Melee");
 			{
+				WSlider("Melee Aimbot Fov####MeleeAimbotFoV", &Vars::Aimbot::Melee::MeleeAimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
 				WToggle("Require Aimbot Bind", &Vars::Aimbot::Melee::RequireBind.Value); HelpMarker("Requires the aimbot keybind to be held in order to run, otherwise it will remain on at all times.");
 				WCombo("Sort method###MeleeSortMethod", &Vars::Aimbot::Melee::SortMethod.Value, { "FOV", "Distance", }); HelpMarker("Which method the aimbot uses to decide which target to aim at");
 				if (Vars::Aimbot::Melee::SortMethod.Value == 1)
@@ -383,14 +383,14 @@ void CMenu::MenuAimbot()
 			WToggle("Range check", &Vars::Aimbot::Melee::RangeCheck.Value); HelpMarker("Only aim at target if within melee range");
 			WToggle("Swing prediction", &Vars::Aimbot::Melee::PredictSwing.Value); HelpMarker("Aimbot will attack preemptively, predicting you will be in range of the target");
 			WToggle("Whip teammates", &Vars::Aimbot::Melee::WhipTeam.Value); HelpMarker("Aimbot will target teammates if holding the Disciplinary Action");
-			//WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("Will avoid shooting until the last shot hits");
+			
 		} EndChild();
 
 		/* Projectile */
 		if (TableColumnChild("AimbotCol3"))
 		{
 			SectionTitle("Projectile");
-			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Projectile::ProjectileAimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
 			WSlider("Prediction Time", &Vars::Aimbot::Projectile::PredictionTime.Value, 0.1f, 10.f, "%.1f");
 
 			{

@@ -61,6 +61,7 @@ void CAimbot::Run(CUserCmd* pCmd)
 	G::HitscanRunning = false;
 	G::HitscanSilentActive = false;
 	G::AimPos = Vec3();
+	G::flAimbotFOV = 0.0f;
 
 	if (F::Misc.bMovementStopped || F::Misc.bFastAccel) { return; }
 
@@ -79,18 +80,21 @@ void CAimbot::Run(CUserCmd* pCmd)
 	{
 		case EWeaponType::HITSCAN:
 		{
+			G::flAimbotFOV = Vars::Aimbot::Hitscan::HitscanAimFOV.Value;
 			F::AimbotHitscan.Run(pLocal, pWeapon, pCmd);
 			break;
 		}
 
 		case EWeaponType::PROJECTILE:
 		{
+			G::flAimbotFOV = Vars::Aimbot::Projectile::ProjectileAimFOV.Value;
 			F::AimbotProjectile.Run(pLocal, pWeapon, pCmd);
 			break;
 		}
 
 		case EWeaponType::MELEE:
 		{
+			G::flAimbotFOV = Vars::Aimbot::Melee::MeleeAimFOV.Value;
 			F::AimbotMelee.Run(pLocal, pWeapon, pCmd);
 			break;
 		}

@@ -168,7 +168,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 			const bool bIgnoreFoV = bPreserve && Vars::Aimbot::Hitscan::IgnorePreservedFoV.Value;
 
 			// Should we respect the Aim FOV?
-			if ((respectFOV && !bIgnoreFoV) && flFOVTo > Vars::Aimbot::Hitscan::AimFOV.Value)
+			if ((respectFOV && !bIgnoreFoV) && flFOVTo > Vars::Aimbot::Hitscan::HitscanAimFOV.Value)
 			{
 				continue;
 			}
@@ -198,7 +198,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
 			// Should we respect the Aim FOV?
-			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::AimFOV.Value)
+			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::HitscanAimFOV.Value)
 			{
 				continue;
 			}
@@ -233,7 +233,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
 			// Should we respect the Aim FOV?
-			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::AimFOV.Value)
+			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::HitscanAimFOV.Value)
 			{
 				continue;
 			}
@@ -254,7 +254,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
 			// Should we respect the Aim FOV?
-			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::AimFOV.Value)
+			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::HitscanAimFOV.Value)
 			{
 				continue;
 			}
@@ -278,7 +278,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 			const float flDistTo = sortMethod == ESortMethod::DISTANCE ? vLocalPos.DistTo(vPos) : 0.0f;
 
 			// Should we respect the Aim FOV?
-			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::AimFOV.Value)
+			if (respectFOV && flFOVTo > Vars::Aimbot::Hitscan::HitscanAimFOV.Value)
 			{
 				continue;
 			}

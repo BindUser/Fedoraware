@@ -207,7 +207,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			const Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
-			if (bRespectFOV && flFOVTo > Vars::Aimbot::Global::AimFOV.Value) {
+			if (bRespectFOV && flFOVTo > Vars::Aimbot::Melee::MeleeAimFOV.Value) {
 				continue;
 			}
 
@@ -239,7 +239,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			const Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
-			if (bRespectFOV && flFOVTo > Vars::Aimbot::Global::AimFOV.Value) {
+			if (bRespectFOV && flFOVTo > Vars::Aimbot::Melee::MeleeAimFOV.Value) {
 				continue;
 			}
 
@@ -257,7 +257,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 			const float flDistTo = sortMethod == ESortMethod::DISTANCE ? vLocalPos.DistTo(vPos) : 0.0f;
 
-			if (bRespectFOV && flFOVTo > Vars::Aimbot::Global::AimFOV.Value) {
+			if (bRespectFOV && flFOVTo > Vars::Aimbot::Melee::MeleeAimFOV.Value) {
 				continue;
 			}
 
