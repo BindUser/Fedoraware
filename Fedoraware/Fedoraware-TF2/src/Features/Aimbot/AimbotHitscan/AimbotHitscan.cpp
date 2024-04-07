@@ -159,9 +159,9 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 
 			const AimInfo_t tTargetInfo = F::AimbotGlobal.GetInfo(pTarget, vLocalPos, vLocalAngles, Vars::Aimbot::Hitscan::SortMethod.Value);
 
-			Vec3 vPos = tTargetInfo.vPos;
-			Vec3 vAngleTo = tTargetInfo.vAngleTo;
-			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
+			const Vec3 vPos = tTargetInfo.vPos;
+			const Vec3 vAngleTo = tTargetInfo.vAngleTo;
+			const float flFOVTo = tTargetInfo.flFoVTo;
 			const float flDistTo = tTargetInfo.flDist;
 
 			const bool bPreserve = (PrioTarget == pTarget && Vars::Aimbot::Hitscan::PreserveTarget.Value);
