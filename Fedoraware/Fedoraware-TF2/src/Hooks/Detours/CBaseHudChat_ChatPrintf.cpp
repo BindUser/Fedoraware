@@ -43,8 +43,8 @@ MAKE_HOOK(CBaseHudChat_ChatPrintf, Utils::GetVFuncPtr(I::ClientModeShared->m_pCh
 	}
 
 	/*
-	 *	Chat Flags
-	 *	@https://www.unknowncheats.me/forum/team-fortress-2-a/488217-chat-flags-titles.html
+		Chat Flags
+		@https://www.unknowncheats.me/forum/team-fortress-2-a/488217-chat-flags-titles.html
 		i swear its not pasted i just used this as inspiration, credits myzarfin.
 	*/
 	if (iPlayerIndex && Vars::Misc::ChatFlags.Value)

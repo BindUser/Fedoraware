@@ -367,23 +367,23 @@ void CMenu::MenuAimbot()
 
 			SectionTitle("Melee");
 			{
-				WSlider("Melee Aimbot Fov####MeleeAimbotFoV", &Vars::Aimbot::Melee::MeleeAimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
 				WToggle("Require Aimbot Bind", &Vars::Aimbot::Melee::RequireBind.Value); HelpMarker("Requires the aimbot keybind to be held in order to run, otherwise it will remain on at all times.");
+				WSlider("Melee Aimbot Fov####MeleeAimbotFoV", &Vars::Aimbot::Melee::MeleeAimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
 				WCombo("Sort method###MeleeSortMethod", &Vars::Aimbot::Melee::SortMethod.Value, { "FOV", "Distance", }); HelpMarker("Which method the aimbot uses to decide which target to aim at");
-				if (Vars::Aimbot::Melee::SortMethod.Value == 1)
-				{
-					WToggle("Respect FOV", &Vars::Aimbot::Melee::RespectFOV.Value); HelpMarker("Respect the Aim FOV set when using distance sorting.");
-				}
 				WCombo("Aim method###MeleeAimMethod", &Vars::Aimbot::Melee::AimMethod.Value, { "Plain", "Smooth", "Silent" }); HelpMarker("Which method the aimbot uses to aim at the target");
 				if (Vars::Aimbot::Melee::AimMethod.Value == 1)
 				{
 					WSlider("Smooth factor###MeleeSmoothing", &Vars::Aimbot::Melee::SmoothingAmount.Value, 0, 20, "%d", ImGuiSliderFlags_AlwaysClamp); HelpMarker("How smooth the aimbot should be");
 				}
+				if (Vars::Aimbot::Melee::SortMethod.Value == 1)
+				{
+					WToggle("Respect FOV", &Vars::Aimbot::Melee::RespectFOV.Value); HelpMarker("Respect the Aim FOV set when using distance sorting.");
+				}
 			}
-			WToggle("Range check", &Vars::Aimbot::Melee::RangeCheck.Value); HelpMarker("Only aim at target if within melee range");
-			WToggle("Swing prediction", &Vars::Aimbot::Melee::PredictSwing.Value); HelpMarker("Aimbot will attack preemptively, predicting you will be in range of the target");
-			WToggle("Whip teammates", &Vars::Aimbot::Melee::WhipTeam.Value); HelpMarker("Aimbot will target teammates if holding the Disciplinary Action");
-			
+			    WToggle("Range check", &Vars::Aimbot::Melee::RangeCheck.Value); HelpMarker("Only aim at target if within melee range");
+			    WToggle("Swing prediction", &Vars::Aimbot::Melee::PredictSwing.Value); HelpMarker("Aimbot will attack preemptively, predicting you will be in range of the target");
+			    WToggle("Whip teammates", &Vars::Aimbot::Melee::WhipTeam.Value); HelpMarker("Aimbot will target teammates if holding the Disciplinary Action");
+
 		} EndChild();
 
 		/* Projectile */
@@ -423,7 +423,7 @@ void CMenu::MenuAimbot()
 				{
 					WSlider("Minimum splash distance", &Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 0.f, Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value); HelpMarker("The minimum distance to try going for splash damage");
 					WSlider("Maximum splash distance", &Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value, Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 10000.f); HelpMarker("The maximum distance to try going for splash damage");
-					WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("lol");
+					WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("Wait to predict the enemy after the first shot");
 				}
 
 				SectionTitle("Strafe Prediction");
@@ -1687,7 +1687,7 @@ void CMenu::MenuHvH()
 		if (TableColumnChild("HvHCol2"))
 		{
 			SectionTitle("Cheater Detection");
-			WToggle("Enable Cheater Detection", &Vars::Misc::CheaterDetection::Enabled.Value);
+			WToggle("Cheater Detection", &Vars::Misc::CheaterDetection::Enabled.Value);
 			if (Vars::Misc::CheaterDetection::Enabled.Value)
 			{
 				{
@@ -1743,7 +1743,6 @@ void CMenu::MenuHvH()
 		/* Column 3 */
 		if (TableColumnChild("HvHCol3"))
 		{
-			/* Section: Anti Aim */
 			SectionTitle("Anti Aim");
 			WToggle("Enable Anti-aim", &Vars::AntiHack::AntiAim::Active.Value);
 			InputKeybind("Anti-aim Key", Vars::AntiHack::AntiAim::ToggleKey, true, false, "None"); HelpMarker("The key to toggle anti aim");
@@ -1760,7 +1759,7 @@ void CMenu::MenuHvH()
 			WCombo("Real yaw", &Vars::AntiHack::AntiAim::YawReal.Value, { "None", "Left", "Right", "Forward", "Backwards", "Spin", "Edge", "Invert"}); HelpMarker("The yaw your hitboxes will be built around.");
 			WCombo("Fake yaw", &Vars::AntiHack::AntiAim::YawFake.Value, { "None", "Left", "Right", "Forward", "Backwards", "Spin", "Edge", "Invert" }); HelpMarker("The yaw that other players will see.");
 			if (Vars::AntiHack::AntiAim::YawFake.Value == 5 || Vars::AntiHack::AntiAim::YawReal.Value == 5) {
-				WSlider("Spin Speed", &Vars::AntiHack::AntiAim::SpinSpeed.Value, -30.f, 30.f, "%.1f", 0); HelpMarker("How many degrees you will rotate in a tick (15 milliseconds).");
+				WSlider("Spin Speed", &Vars::AntiHack::AntiAim::SpinSpeed.Value, -30.f, 30.f, "%1.f", 0); HelpMarker("How many degrees you will rotate in a tick (15 milliseconds).");
 			}
 
 			WCombo("Base Yaw", &Vars::AntiHack::AntiAim::BaseYawMode.Value, { "Offset", "FOV Player", "FOV Player + Offset" }); HelpMarker("The yaw that your fake & real yaws are added to.");
@@ -1768,9 +1767,9 @@ void CMenu::MenuHvH()
 				WSlider("Base Yaw Offset", &Vars::AntiHack::AntiAim::BaseYawOffset.Value, -180, 180);
 			}
 			
-			MultiCombo({"Jitter Legs", "HidePitchOnShot", "Anti-Backstab", "Rehide Angle Post-Shot"}, {&Vars::AntiHack::AntiAim::LegJitter.Value, &Vars::AntiHack::AntiAim::InvalidShootPitch.Value, &Vars::AntiHack::AntiAim::AntiBackstab.Value, &Vars::AntiHack::AntiAim::RehideAntiAimPostShot.Value }, "Misc.");
-
-			/* Section: Auto Peek */
+			MultiCombo({"Jitter Legs", "HidePitchOnShot", "Rehide Angle Post-Shot"}, {&Vars::AntiHack::AntiAim::LegJitter.Value, &Vars::AntiHack::AntiAim::InvalidShootPitch.Value, &Vars::AntiHack::AntiAim::RehideAntiAimPostShot.Value }, "Misc.");
+            WToggle("Anti-Backstab", &Vars::AntiHack::AntiAim::AntiBackstab.Value);
+			
 			SectionTitle("Auto Peek");
 			InputKeybind("Autopeek Key", Vars::Misc::CL_Move::AutoPeekKey, true, false, "None"); HelpMarker("Hold this key while peeking and use A/D to set the peek direction");
 			WSlider("Max Distance", &Vars::Misc::CL_Move::AutoPeekDistance.Value, 50.f, 400.f, "%.0f"); HelpMarker("Maximum distance that auto peek can walk");
@@ -1823,6 +1822,16 @@ void CMenu::MenuMisc()
 			WToggle("Auto FaN jump", &Vars::Misc::AutoScoutJump.Value); HelpMarker("Performs an FaN jump when pressing RMB");
 			WToggle("Anti-AFK", &Vars::Misc::AntiAFK.Value); HelpMarker("Will make you jump every now and then so you don't get kicked for idling");
 			WToggle("Auto Vote", &Vars::Misc::AutoVote.Value); HelpMarker("Automatically votes yes/no depending on the target");
+			WCombo("Pick Class", &Vars::Misc::AutoJoin.Value, { "Off", "Scout", "Soldier", "Pyro", "Demoman", "Heavy", "Engineer", "Medic", "Sniper", "Spy" }); HelpMarker("Automatically picks the selected class upon joining a game");
+			WToggle("Rage retry", &Vars::Misc::RageRetry.Value); HelpMarker("Will automatically reconnect when your health is low");
+			if (Vars::Misc::RageRetry.Value)
+			{
+				WSlider("Rage Retry health", &Vars::Misc::RageRetryHealth.Value, 1, 99, "%d%%"); HelpMarker("Minimum health percentage that will trigger a retry");
+			}
+			WToggle("Pseudo Spectator", &Vars::Misc::ExtendFreeze.Value); HelpMarker("Causes an infinite respawn time");
+			WToggle("Auto accept item drops", &Vars::Misc::AutoAcceptItemDrops.Value); HelpMarker("Automatically accepts item drops");
+
+			SectionTitle("Taunts");
 			WToggle("Taunt slide", &Vars::Misc::TauntSlide.Value); HelpMarker("Allows you to input in taunts");
 			WToggle("Taunt control", &Vars::Misc::TauntControl.Value); HelpMarker("Gives full control if enabled with taunt slide");
 			WToggle("Taunt follows camera", &Vars::Misc::TauntFollowsCamera.Value);
@@ -1832,15 +1841,6 @@ void CMenu::MenuMisc()
 				InputKeybind("Taunt spin key", Vars::Misc::TauntSpinKey, true, false, "None");	//	why was this set to disallow none?
 				WSlider("Taunt spin speed", &Vars::Misc::TauntSpinSpeed.Value, 0.1f, 100.f, "%.2f", ImGuiSliderFlags_AlwaysClamp);
 			}
-
-			WCombo("Pick Class", &Vars::Misc::AutoJoin.Value, { "Off", "Scout", "Soldier", "Pyro", "Demoman", "Heavy", "Engineer", "Medic", "Sniper", "Spy" }); HelpMarker("Automatically joins the given class");
-			WToggle("Rage retry", &Vars::Misc::RageRetry.Value); HelpMarker("Will automatically reconnect when your health is low");
-			if (Vars::Misc::RageRetry.Value)
-			{
-				WSlider("Rage Retry health", &Vars::Misc::RageRetryHealth.Value, 1, 99, "%d%%"); HelpMarker("Minimum health percentage that will cause a retry");
-			}
-			WToggle("Pseudo Spectator", &Vars::Misc::ExtendFreeze.Value); HelpMarker("Causes an infinite respawn/spectator time");
-			WToggle("Auto accept item drops", &Vars::Misc::AutoAcceptItemDrops.Value); HelpMarker("Automatically accepts all item drops");
 
 			SectionTitle("Queueing");
 			WToggle("Region selector", &Vars::Misc::RegionChanger.Value);
@@ -1908,7 +1908,7 @@ void CMenu::MenuMisc()
 			WToggle("Ping reducer", &Vars::Misc::PingReducer.Value); HelpMarker("Reduces your ping on the scoreboard");
 			if (Vars::Misc::PingReducer.Value)
 			{
-				WSlider("Target ping", &Vars::Misc::PingTarget.Value, 0, 200); HelpMarker("Target ping that should be reached");
+				WSlider("Desire ping", &Vars::Misc::PingTarget.Value, 0, 200); HelpMarker("Target ping that should be reached");
 			}
 
 			SectionTitle("Party Networking");

@@ -98,8 +98,8 @@ inline float CAntiAim::GetPitch(const int iFake, const int iReal, const float fl
 		return iFake ? CalculateCustomRealPitch(Vars::AntiHack::AntiAim::CustomRealPitch.Value, iFake - 1) : Vars::AntiHack::AntiAim::CustomRealPitch.Value;
 	}
 	/*
-	this is unused because it doesnt work with fake pitch(i just dont know how to get it work) 
-	and i just found out that jitter pitch is ass via:
+	this is unused because it doesnt work with fake pitch(i just dont know how to get it work)
+	and i just found out that jitter pitch is bad via:
 	https://pastebin.com/L4itjSSY
 	case 5: {
 		float flPitch = 0.f;

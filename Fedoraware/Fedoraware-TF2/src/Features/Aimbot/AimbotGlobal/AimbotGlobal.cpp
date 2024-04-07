@@ -59,7 +59,8 @@ AimInfo_t CAimbotGlobal::GetInfo(CBaseEntity* pTarget, const Vec3 vFrom, const V
 bool CAimbotGlobal::IsKeyDown()
 {
 	static KeyHelper aimKey{ &Vars::Aimbot::Global::AimKey.Value };
-	return !Vars::Aimbot::Global::AimKey.Value ? true : aimKey.Down();
+	/* return !Vars::Aimbot::Global::AimKey.Value ? true : aimKey.Down(); */
+	Vars::Aimbot::Global::AimKey.Value = (aimKey.Pressed() ? !Vars::Aimbot::Global::AimKey.Value : Vars::Aimbot::Global::AimKey.Value);
 }
 
 void CAimbotGlobal::SortTargets(std::vector<Target_t>* targets, const ESortMethod& method)

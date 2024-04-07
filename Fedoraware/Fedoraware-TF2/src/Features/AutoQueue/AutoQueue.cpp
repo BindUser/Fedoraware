@@ -18,8 +18,9 @@ void CAutoQueue::Run()
 		if (!bInStandbyQueue &&
 			!bHaveLiveMatch &&
 			!nNumMatchInvites)
-		{
-			I::TFPartyClient->LoadSavedCasualCriteria();
+		{   
+			//will queue for saved maps instead of of already selected ones
+			/* I::TFPartyClient->LoadSavedCasualCriteria(); */
 			I::TFPartyClient->RequestQueueForMatch(k_eTFMatchGroup_Casual_Default);
 		}
 	}
@@ -29,7 +30,7 @@ void CAutoQueue::Run()
 
 		if (!bInQueueForMatchGroup)
 		{
-			I::TFPartyClient->LoadSavedCasualCriteria();
+			/* I::TFPartyClient->LoadSavedCasualCriteria(); */
 			I::TFPartyClient->RequestQueueForMatch(k_eTFMatchGroup_Casual_Default);
 		}
 	}
