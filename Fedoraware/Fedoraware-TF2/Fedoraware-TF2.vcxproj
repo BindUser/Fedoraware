@@ -174,7 +174,6 @@
     <ClCompile Include="src\Features\TickHandler\NetworkFix\NetworkFix.cpp" />
     <ClCompile Include="src\Features\TickHandler\TickHandler.cpp" />
     <ClCompile Include="src\Features\Fedworking\Fedworking.cpp" />
-    <ClCompile Include="src\Features\Followbot\Followbot.cpp" />
     <ClCompile Include="src\Features\Killstreak\Killstreak.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\Features\Aimbot\Aimbot.cpp" />
@@ -313,7 +312,6 @@
     <ClCompile Include="src\Hooks\Detours\S_StartDynamicSound.cpp" />
     <ClCompile Include="src\Hooks\Detours\UniformRandomStream_RandInt.cpp" />
     <ClCompile Include="src\Hooks\Detours\UTIL_TraceLine.cpp" />
-    <ClCompile Include="src\Hooks\Detours\VGui_MenuBuilder_AddMenuItem.cpp" />
     <ClCompile Include="src\Hooks\Detours\ViewRender_LevelInit.cpp" />
     <ClCompile Include="src\Hooks\Detours\ViewRender_LevelShutdown.cpp" />
     <ClCompile Include="src\Hooks\Detours\ViewRender_PerformScreenSpaceEffects.cpp" />
@@ -371,7 +369,6 @@
     <ClInclude Include="src\Features\Camera\CameraWindow.h" />
     <ClInclude Include="src\Features\CritHack\CritHack.h" />
     <ClInclude Include="src\Features\Fedworking\Fedworking.h" />
-    <ClInclude Include="src\Features\Followbot\Followbot.h" />
     <ClInclude Include="src\Features\Killstreak\Killstreak.h" />
     <ClInclude Include="src\Features\Aimbot\Aimbot.h" />
     <ClInclude Include="src\Features\Aimbot\AimbotGlobal\AimbotGlobal.h" />
