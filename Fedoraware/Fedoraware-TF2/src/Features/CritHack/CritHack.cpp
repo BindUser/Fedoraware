@@ -417,7 +417,7 @@ void CCritHack::Draw()
 	// Are we currently forcing crits?
 	if (ShouldCrit() && NoRandomCrits(pWeapon) == false)
 	{
-		g_Draw.String(FONT, x, currentY += 15, { 70, 190, 50, 255 }, ALIGN_CENTERHORIZONTAL, "Crit key :On ");
+		g_Draw.String(FONT, x, currentY += 15, { 70, 190, 50, 255 }, ALIGN_CENTERHORIZONTAL, "Crithack :On ");
 	}
 	//crit banned check
 	if (CritTicks.size() == 0 && NoRandomCrits(pWeapon) == false)
