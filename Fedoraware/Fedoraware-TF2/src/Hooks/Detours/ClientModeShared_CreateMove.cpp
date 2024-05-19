@@ -12,7 +12,6 @@
 #include "../../Features/Fedworking/Fedworking.h"
 #include "../../Features/Resolver/Resolver.h"
 #include "../../Features/AntiHack/CheaterDetection/CheaterDetection.h"
-#include "../../Features/Followbot/Followbot.h"
 #include "../../Features/Vars.h"
 #include "../../Features/Aimbot/AimbotGlobal/AimbotGlobal.h"
 #include "../../Features/Menu/MaterialEditor/MaterialEditor.h"
