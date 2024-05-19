@@ -10,7 +10,6 @@
 #include "../../Features/Menu/Menu.h"
 #include "../../Features/Menu/SpectatorList/SpectatorList.h"
 #include "../../Features/Radar/Radar.h"
-#include "../../Features/Followbot/Followbot.h"
 #include "../../Features/AutoQueue/AutoQueue.h"
 #include "../../Features/Menu/MaterialEditor/MaterialEditor.h"
 #include "../../Features/Menu/Playerlist/Playerlist.h"
@@ -113,7 +112,6 @@ MAKE_HOOK(EngineVGui_Paint, Utils::GetVFuncPtr(I::EngineVGui, 14), void, __fastc
 			F::ESP.Draw();
 			F::Visuals.Draw();
 			F::PlayerArrows.Draw();
-			F::Followbot.Draw();
 			F::SpectatorList.Draw();
 			F::CritHack.Draw();
 			F::Radar.Draw();

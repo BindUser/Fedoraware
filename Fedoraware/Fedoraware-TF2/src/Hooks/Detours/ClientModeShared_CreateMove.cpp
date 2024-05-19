@@ -140,7 +140,6 @@ MAKE_HOOK(ClientModeShared_CreateMove, Utils::GetVFuncPtr(I::ClientModeShared, 2
 		F::CritHack.Run(pCmd);
 		F::Misc.RunPost(pCmd, pSendPacket);
 		F::Resolver.CreateMove();
-		F::Followbot.Run(pCmd);
 	}
 
 	if (*pSendPacket)
