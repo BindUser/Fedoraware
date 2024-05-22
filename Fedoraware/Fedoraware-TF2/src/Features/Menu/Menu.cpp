@@ -1895,7 +1895,7 @@ void CMenu::MenuMisc()
 
 			WToggle("Chat Flags", &Vars::Misc::ChatFlags.Value); HelpMarker("Adds advanced prefixes to chat messages");
 			WToggle("Runescape chat", &Vars::Misc::RunescapeChat.Value); HelpMarker("Draws text on top of peoples heads when they type like in runescape (wholesome)");
-			WCombo("Chat spam", &Vars::Misc::ChatSpam.Value, { "Off", "Fedoraware", "Lmaobox", "Cathook", "Lol" });
+			WCombo("Chat spam", &Vars::Misc::ChatSpam.Value, { "Off", "Fedoraware", "Lmaobox", "Cathook"});
 			WCombo("Voicechat spam", &Vars::Misc::VoicechatSpam.Value, { "Off", "Medic!", "Help!", "Nice Shot", "Random" });
 			WSlider("Spam interval", &Vars::Misc::SpamInterval.Value, 0.1f, 10.f, "%.1f"); HelpMarker("How often chat/voice spam should run");
 			WCombo("Medieval Mode", &Vars::Misc::MedievalChat.Value, { "Default", "Never", "Always" }); HelpMarker("By the Immeasurable Nether Regions of Enlightened Dionysus, this enableth medieval chattery. Anon!");
@@ -1917,14 +1917,7 @@ void CMenu::MenuMisc()
 			InputKeybind("Party marker", Vars::Misc::PartyMarker, true, false, "None");  HelpMarker("Sends a marker to other Fedoraware users in your party");
 			WToggle("Party ESP###PartyNetESP", &Vars::Misc::PartyESP.Value); HelpMarker("Sends player locations to your party members");
 
-			SectionTitle("Followbot");
-			WToggle("Enable Followbot###FollowbotEnable", &Vars::Misc::Followbot::Enabled.Value); HelpMarker("Follows a player around.");
-			if (Vars::Misc::Followbot::Enabled.Value)
-			{
-				WToggle("Friends only###FollowbotFriends", &Vars::Misc::Followbot::FriendsOnly.Value); HelpMarker("Only follow friends");
-				WSlider("Follow Distance###FollowbotDistance", &Vars::Misc::Followbot::Distance.Value, 50.f, 400.f, "%.0f"); HelpMarker("How close we should follow the target");
-			}
-
+			
 			/*SectionTitle("Leaderboard");
 			WToggle("Send statistics", &Vars::Misc::StoreStatistics.Value); HelpMarker("Will send your steamid/kills/deaths/highest killstreak whenever you leave the server");
 
