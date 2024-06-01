@@ -9,7 +9,6 @@
 # Fedoraware
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/Fedoraware/Fedoraware)](/../../stargazers)
-[![Discord](https://img.shields.io/discord/1115064843209289849?logo=Discord&label=discord)](https://discord.gg/FYypQsbU2G)
 [![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Fedoraware/Fedoraware/msbuild.yml?branch=main)](/../../actions)
 [![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/Fedoraware/Fedoraware)](/../../commits/)
 
@@ -28,8 +27,6 @@ A free and open-source training software for Team Fortress 2, based on [SE-Owned
 
 - We suggest using [Fedoraloader](https://github.com/Fedoraware/Fedoraloader/releases) as it downloads the latest build and injects it with minimal crashing. It also includes a VAC bypass.
 - Alternatively, use an injector like [Xenos](https://github.com/DarthTon/Xenos/releases) or [TFGhost](https://www.unknowncheats.me/forum/team-fortress-2-a/471765-tfghost.html) to inject the dll into TF2. [(Tutorial for Xenos injector)](https://www.youtube.com/watch?v=PT3kVA053IY)
-- **If you have any suggestions for the cheat, or questions about it, you can open a thread in [discussions](https://github.com/Fedoraware/Fedoraware/discussions).**
-- **If you have any problems, you can open an [issue](https://github.com/Fedoraware/Fedoraware/issues).**
 
 ## Media
 
